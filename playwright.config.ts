@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
   // Root directory where tests are located
-  testDir: "./saucedemo", // update if your test files are in root, or keep './' if tests are directly in repo root
+  testDir: "./", // update if your test files are in root, or keep './' if tests are directly in repo root
   /* Maximum time one test can run for. */
   timeout: 10 * 1000,
   expect: {
