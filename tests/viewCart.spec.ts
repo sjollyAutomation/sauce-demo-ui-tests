@@ -1,29 +1,9 @@
-import { test, expect } from "@playwright/test";
-import { LoginPage } from "../pages/login";
+import { test } from "./fixtures/login";
+import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 import { CartPage } from "../pages/cart";
-import testData from "../test-data/data.json";
 
-const standardUserName = testData.users.standardUser;
-const password = testData.password;
-
-let login: any;
-
-test.beforeEach(async ({ page }) => {
-  login = new LoginPage(page);
-
-  // Go to home page
-  await login.goto();
-
-  // Login with valid credentials
-  await login.login(standardUserName, password);
-});
-
-test.afterEach(async ({ page }) => {
-  await login.logout();
-});
-
-test("view cart details page", async ({ page }) => {
+test("view cart details page", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
 
   const shoppingCartLink = inventory.shoppingCartLink;

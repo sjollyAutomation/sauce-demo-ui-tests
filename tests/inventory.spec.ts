@@ -1,28 +1,8 @@
-import { test, expect } from "@playwright/test";
-import { LoginPage } from "../pages/login";
+import { test } from "./fixtures/login";
+import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
-import testData from "../test-data/data.json";
 
-const standardUserName = testData.users.standardUser;
-const password = testData.password;
-
-let login: any;
-
-test.beforeEach(async ({ page }) => {
-  login = new LoginPage(page);
-
-  // Go to home page
-  await login.goto();
-
-  // Login with valid credentials
-  await login.login(standardUserName, password);
-});
-
-test.afterEach(async ({ page }) => {
-  await login.logout();
-});
-
-test("inventory details", async ({ page }) => {
+test("inventory details", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
 
   // Verify inventory container is visible after successful login

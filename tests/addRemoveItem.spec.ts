@@ -1,28 +1,8 @@
-import { test, expect, Locator } from "@playwright/test";
-import { LoginPage } from "../pages/login";
+import { test } from "./fixtures/login";
+import { expect, Locator } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
-import testData from "../test-data/data.json";
 
-const standardUserName = testData.users.standardUser;
-const password = testData.password;
-
-let login: any;
-
-test.beforeEach(async ({ page }) => {
-  login = new LoginPage(page);
-
-  // Go to home page
-  await login.goto();
-
-  // Login with valid credentials
-  await login.login(standardUserName, password);
-});
-
-test.afterEach(async ({ page }) => {
-  await login.logout();
-});
-
-test("add and remove item on product list page", async ({ page }) => {
+test("add and remove item on product list page", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
 
   const shoppingCartLink = inventory.shoppingCartLink;
@@ -36,7 +16,7 @@ test("add and remove item on product list page", async ({ page }) => {
   await verifyRemoveItem(shoppingCartLink, addToCartButton, removeButton);
 });
 
-test("add and remove item on product details page", async ({ page }) => {
+test("add and remove item on product details page", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
 
   // Go to first item details page
