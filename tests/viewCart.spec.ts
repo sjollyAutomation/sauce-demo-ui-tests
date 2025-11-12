@@ -22,26 +22,51 @@ test("view cart details page", async ({ page, login }) => {
 
   const cart = new CartPage(page);
 
-  // Verify correct url is displayed
-  expect(page.url()).toContain(cart.viewCartUrl);
+  expect(page.url(), "correct view cart url should be in the bar").toContain(
+    cart.viewCartUrl
+  );
 
-  // Verify title is displayed correctly
-  await expect(cart.title).toBeVisible();
-  await expect(cart.title).toHaveText("Your Cart");
-
-  // Verify labels are displayed correctly
-  await expect(cart.cartQuantityLabel).toBeVisible();
-  await expect(cart.cartDescriptionLabel).toBeVisible();
+  // Verify cart is displayed with correct attributes
+  await expect(cart.title, "cart title should be displayed").toBeVisible();
+  await expect(cart.title, "correct title should be visible").toHaveText(
+    "Your Cart"
+  );
+  await expect(
+    cart.cartQuantityLabel,
+    "cart quantity label should be visible"
+  ).toBeVisible();
+  await expect(
+    cart.cartDescriptionLabel,
+    "cart description label should be displayed"
+  ).toBeVisible();
 
   // Verify cart list is displayed correctly
-  await expect(cart.cartList).toBeVisible();
-  await expect(cart.itemQuantity).toHaveText("1");
-  expect(await cart.itemName.textContent()).toEqual(firstName);
-  expect(await cart.itemDescription.textContent()).toEqual(firstDescription);
-  expect(await cart.itemPrice.textContent()).toEqual(firstPrice);
-  await expect(removeButton).toBeVisible();
+  await expect(cart.cartList, "cart list should be visible").toBeVisible();
+  await expect(
+    cart.itemQuantity,
+    "correct item quantity is displayed"
+  ).toHaveText("1");
+  expect(
+    await cart.itemName.textContent(),
+    "item name should be correct"
+  ).toEqual(firstName);
+  expect(
+    await cart.itemDescription.textContent(),
+    "item description should be correct"
+  ).toEqual(firstDescription);
+  expect(
+    await cart.itemPrice.textContent(),
+    "item price should have correct value"
+  ).toEqual(firstPrice);
+  await expect(removeButton, "remove button should be available").toBeVisible();
 
   // Verify navigation buttons are displayed correctly
-  await expect(cart.continueShoppingButton).toBeVisible();
-  await expect(cart.checkoutButton).toBeVisible();
+  await expect(
+    cart.continueShoppingButton,
+    "continue shopping button should be visible"
+  ).toBeVisible();
+  await expect(
+    cart.checkoutButton,
+    "checkout button should be displayed"
+  ).toBeVisible();
 });

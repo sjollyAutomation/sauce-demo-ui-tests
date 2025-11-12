@@ -38,26 +38,40 @@ async function verifyAddItem(
   addItemLocator: Locator,
   removeItemLocator: Locator
 ) {
-  // Verify shopping cart is empty
-  expect(await shoppingCartLink.textContent()).toEqual("");
+  // Verify the default status of the elements is correct
+  expect(
+    await shoppingCartLink.textContent(),
+    "shopping cart should be empty by default"
+  ).toEqual("");
 
-  // Verify add to cart button exists
-  await expect(addItemLocator).toBeVisible();
+  await expect(
+    addItemLocator,
+    "add to cart button should be visible"
+  ).toBeVisible();
 
-  // Verify remove button is not visible
-  await expect(removeItemLocator).toBeHidden();
+  await expect(
+    removeItemLocator,
+    "remove button should be hidden"
+  ).toBeHidden();
 
   // Click add to cart button
   await addItemLocator.click();
 
-  // Verify shopping cart is not empty
-  expect(await shoppingCartLink.textContent()).toEqual("1");
+  // Verify elements are updated properly after adding an item to cart
+  expect(
+    await shoppingCartLink.textContent(),
+    "shopping cart should have one item added"
+  ).toEqual("1");
 
-  // Verify add to cart button disappears
-  await expect(addItemLocator).toBeHidden();
+  await expect(
+    addItemLocator,
+    "add to cart button is hidden for the added item"
+  ).toBeHidden();
 
-  // Verify remove button is visible
-  await expect(removeItemLocator).toBeVisible();
+  await expect(
+    removeItemLocator,
+    "remove button is displayed for the added item"
+  ).toBeVisible();
 }
 
 async function verifyRemoveItem(
@@ -65,24 +79,38 @@ async function verifyRemoveItem(
   addItemLocator: Locator,
   removeItemLocator: Locator
 ) {
-  // Verify shopping cart is not empty
-  expect(await shoppingCartLink.textContent()).toEqual("1");
+  // Verify the elements are displayed properly when items are added to the cart
+  expect(
+    await shoppingCartLink.textContent(),
+    "shopping cart shouldn't be empty after adding items"
+  ).toEqual("1");
 
-  // Verify remove button is visible
-  await expect(removeItemLocator).toBeVisible();
+  await expect(
+    removeItemLocator,
+    "remove button should be available for the added items"
+  ).toBeVisible();
 
-  // Verify add to cart button is not visible
-  await expect(addItemLocator).toBeHidden();
+  await expect(
+    addItemLocator,
+    "add to cart button should be hidden for the added item"
+  ).toBeHidden();
 
   // Click remove button
   await removeItemLocator.click();
 
-  // Verify shopping cart is empty
-  expect(await shoppingCartLink.textContent()).toEqual("");
+  // Verify elements are updated properly after removing items from the cart
+  expect(
+    await shoppingCartLink.textContent(),
+    "shopping cart should be empty after removing added items"
+  ).toEqual("");
 
-  // Verify add to cart button exists
-  await expect(addItemLocator).toBeVisible();
+  await expect(
+    addItemLocator,
+    "add to cart button should be available when shopping cart is empty"
+  ).toBeVisible();
 
-  // Verify remove button is not visible
-  await expect(removeItemLocator).toBeHidden();
+  await expect(
+    removeItemLocator,
+    "remove button should be hidden when the shopping cart is empty"
+  ).toBeHidden();
 }
