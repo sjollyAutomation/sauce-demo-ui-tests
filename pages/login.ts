@@ -9,6 +9,7 @@ export class LoginPage {
   readonly loginButton: Locator;
   readonly errorContainer: Locator;
   readonly errorCloseButton: Locator;
+  readonly primaryHeader: Locator;
   readonly openMenuLink: Locator;
   readonly logoutLink: Locator;
 
@@ -19,6 +20,7 @@ export class LoginPage {
     this.loginButton = page.locator('[data-test="login-button"]');
     this.errorContainer = page.locator('[data-test="error"]');
     this.errorCloseButton = page.locator('[data-test="error-button"] svg');
+    this.primaryHeader = page.locator('[data-test="primary-header"]');
     this.openMenuLink = page.getByRole("button", { name: "Open Menu" });
     this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
   }

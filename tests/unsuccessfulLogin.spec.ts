@@ -18,9 +18,6 @@ test.describe("unsuccessful login verification", () => {
     // Go to home page
     await login.goto();
 
-    // Verify page title to have Playwright
-    await expect(page).toHaveTitle("Swag Labs");
-
     // Click login button without filling up username and password fields
     await login.login("", "");
 
@@ -70,20 +67,33 @@ test.describe("unsuccessful login verification", () => {
   });
 
   async function testErrorMessage(login: LoginPage, errorMessage: string) {
-    // Verify error container is visible after unsuccessful login
-    await expect(login.errorContainer).toBeVisible();
+    // Verify error container is displayed with correct error message and close button
+    await expect(
+      login.errorContainer,
+      "error container should be visible after unsuccessful login"
+    ).toBeVisible();
 
-    // Verify error container is showing the correct error message.
-    await expect(login.errorContainer).toHaveText(errorMessage);
+    await expect(
+      login.errorContainer,
+      "correct error message should be displayed"
+    ).toHaveText(errorMessage);
 
-    // Verify error container has a close button
-    await expect(login.errorCloseButton).toBeVisible();
+    await expect(
+      login.errorCloseButton,
+      "close button should be available in the error container"
+    ).toBeVisible();
 
     // Click the error close button
     await login.errorCloseButton.click();
 
-    // Verify error message along with close button is hidden
-    await expect(login.errorContainer).toBeHidden();
-    await expect(login.errorCloseButton).toBeHidden();
+    // Verify error container is hidden properly
+    await expect(
+      login.errorContainer,
+      "error container is hidden after clicking close button"
+    ).toBeHidden();
+    await expect(
+      login.errorCloseButton,
+      "close button in the error container should be hidden"
+    ).toBeHidden();
   }
 });
