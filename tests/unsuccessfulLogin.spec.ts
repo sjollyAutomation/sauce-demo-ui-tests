@@ -11,60 +11,42 @@ const invalidUserErrorMessage = testData.errorMessage.invalidUserError;
 const emptyUsernameErrorMessage = testData.errorMessage.emptyUsernameError;
 const emptyPasswordErrorMessage = testData.errorMessage.emptyPasswordError;
 
+const cases = [
+  {
+    user: "",
+    pass: "",
+    test: "Empty username",
+    message: emptyUsernameErrorMessage,
+  },
+  {
+    user: standardUserName,
+    pass: "",
+    test: "Empty password",
+    message: emptyPasswordErrorMessage,
+  },
+  {
+    user: lockedOutUserName,
+    pass: password,
+    test: "Locked out user",
+    message: lockedOutErrorMessage,
+  },
+  {
+    user: invalidUserName,
+    pass: password,
+    test: "Invalid user",
+    message: invalidUserErrorMessage,
+  },
+];
+
 test.describe("unsuccessful login verification", () => {
-  test("Empty username", async ({ page }) => {
-    const login = new LoginPage(page);
-
-    // Go to home page
-    await login.goto();
-
-    // Click login button without filling up username and password fields
-    await login.login("", "");
-
-    // Verify error message is displayed for empty username
-    await testErrorMessage(login, emptyUsernameErrorMessage);
-  });
-
-  test("Empty password", async ({ page }) => {
-    const login = new LoginPage(page);
-
-    // Go to home page
-    await login.goto();
-
-    // Fill up username field with standard username
-    await login.login(standardUserName, "");
-
-    // Verify error message is displayed for empty username
-    await testErrorMessage(login, emptyPasswordErrorMessage);
-  });
-
-  test("locked out user login", async ({ page }) => {
-    const login = new LoginPage(page);
-
-    // Go to home page
-    await login.goto();
-
-    // Fill up username field with locked out username
-    // Fill up password field
-    await login.login(lockedOutUserName, password);
-
-    // Verify error message is displayed for locked out user
-    await testErrorMessage(login, lockedOutErrorMessage);
-  });
-
-  test("invalid user login", async ({ page }) => {
-    const login = new LoginPage(page);
-
-    // Go to home page
-    await login.goto();
-
-    // Fill up username field with invalid username
-    // Fill up password field
-    await login.login(invalidUserName, password);
-
-    // Verify error message is displayed for invalid user
-    await testErrorMessage(login, invalidUserErrorMessage);
-  });
+  for (const c of cases) {
+    test(c.test, async ({ page }) => {
+      const login = new LoginPage(page);
+      await login.goto();
+      await login.login(c.user, c.pass);
+      await testErrorMessage(login, c.message);
+    });
+  }
 
   async function testErrorMessage(login: LoginPage, errorMessage: string) {
     // Verify error container is displayed with correct error message and close button
