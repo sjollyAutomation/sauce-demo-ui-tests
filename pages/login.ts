@@ -4,23 +4,31 @@ export class LoginPage {
   readonly page: Page;
   readonly url = "https://www.saucedemo.com/";
 
+  readonly title: Locator;
   readonly usernameTextField: Locator;
   readonly passwordTextField: Locator;
   readonly loginButton: Locator;
   readonly errorContainer: Locator;
   readonly errorCloseButton: Locator;
   readonly primaryHeader: Locator;
+  readonly secondaryHeader: Locator;
   readonly openMenuLink: Locator;
+  readonly sortingContainer: Locator;
   readonly logoutLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
+    this.title = page.locator(".login_logo");
     this.usernameTextField = page.locator('[data-test="username"]');
     this.passwordTextField = page.locator('[data-test="password"]');
     this.loginButton = page.locator('[data-test="login-button"]');
     this.errorContainer = page.locator('[data-test="error"]');
     this.errorCloseButton = page.locator('[data-test="error-button"] svg');
     this.primaryHeader = page.locator('[data-test="primary-header"]');
+    this.secondaryHeader = page.locator('[data-test="secondary-header"]');
+    this.sortingContainer = page.locator(
+      '[data-test="product-sort-container"]'
+    );
     this.openMenuLink = page.getByRole("button", { name: "Open Menu" });
     this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
   }

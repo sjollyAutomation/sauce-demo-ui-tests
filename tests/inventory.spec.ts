@@ -3,6 +3,11 @@ import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 
 test("inventory details are displayed properly", async ({ page, login }) => {
+  await expect(
+    login.sortingContainer,
+    "product sort container should be visible"
+  ).toBeVisible();
+
   const inventory = new InventoryPage(page);
 
   await expect(
