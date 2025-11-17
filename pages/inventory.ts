@@ -1,4 +1,7 @@
 import { Page, Locator } from "@playwright/test";
+import { LoginPage } from "./login";
+import { getConvertedText } from "../helpers/stringhelper";
+import { sortArray, isArraySorted } from "../helpers/sortHelper";
 
 export class InventoryPage {
   readonly page: Page;
@@ -18,6 +21,7 @@ export class InventoryPage {
   readonly itemRemoveButton: Locator;
   readonly backToProductsLink: Locator;
   readonly shoppingCartLink: Locator;
+  readonly activeSortOption: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -44,37 +48,95 @@ export class InventoryPage {
     this.itemRemoveButton = page.locator('[data-test="remove"]');
     this.backToProductsLink = page.locator('[data-test="back-to-products"]');
     this.shoppingCartLink = page.locator('[data-test="shopping-cart-link"]');
+    this.activeSortOption = page.locator('[data-test="active-option"]');
   }
 
-  getConvertedText(itemText: string) {
-    return itemText.trim().toLocaleLowerCase().replace(/ /g, "-");
-  }
-
-  async firstInventoryItemAddToCartButton() {
+  async firstInventoryItemAddToCartButton(): Promise<Locator> {
     const itemText = await this.firstInventoryItemName.textContent();
 
     if (!itemText) {
       throw new Error("First inventory item name is empty");
     }
 
-    const locatorValue = `[data-test="add-to-cart-${this.getConvertedText(
+    const locatorValue = `[data-test="add-to-cart-${getConvertedText(
       itemText
     )}"]`;
 
     return this.page.locator(locatorValue);
   }
 
-  async firstInventoryItemRemoveButton() {
+  async firstInventoryItemRemoveButton(): Promise<Locator> {
     const itemText = await this.firstInventoryItemName.textContent();
 
     if (!itemText) {
       throw new Error("First inventory item name is empty");
     }
 
-    const locatorValue = `[data-test="remove-${this.getConvertedText(
-      itemText
-    )}"]`;
+    const locatorValue = `[data-test="remove-${getConvertedText(itemText)}"]`;
 
     return this.page.locator(locatorValue);
+  }
+
+  async selectSortingOption(optionLabel: string): Promise<void> {
+    const loginPage = new LoginPage(this.page);
+
+    await loginPage.sortingContainer.selectOption({ label: optionLabel });
+  }
+
+  async getItemNameList(): Promise<string[]> {
+    const itemNames = await this.itemName.allTextContents();
+
+    return itemNames;
+  }
+
+  async getItemPriceList(): Promise<number[]> {
+    const priceStrings = await this.itemPrice.allTextContents(); // e.g. "$19.99"
+    return priceStrings.map((p) => parseFloat(p.replace("$", "")));
+  }
+
+  async isAscendingSortingName(): Promise<boolean> {
+    const originalItemNameList = await this.getItemNameList();
+
+    const sortedItemNameList = sortArray(originalItemNameList);
+
+    // return originalItemNameList.every(
+    //   (value, index) => value === sortedItemNameList[index]
+    // );
+    return isArraySorted(originalItemNameList, sortedItemNameList);
+  }
+
+  async isAscendingSortingPrice(): Promise<boolean> {
+    const originalItemPriceList = await this.getItemPriceList();
+
+    const sortedItemPriceList = sortArray(originalItemPriceList);
+
+    // return originalItemPriceList.every(
+    //   (value, index) => value === sortedItemPriceList[index]
+    // );
+    return isArraySorted(originalItemPriceList, sortedItemPriceList);
+  }
+
+  async isDecendingSortingName(): Promise<boolean> {
+    const originalItemNameList = await this.getItemNameList();
+
+    const sortedItemNameList = sortArray(originalItemNameList, false);
+
+    // return originalItemNameList.every(
+    //   (value, index) => value === sortedItemNameList[index]
+    // );
+
+    return isArraySorted(originalItemNameList, sortedItemNameList);
+  }
+
+  async isDecendingSortingPrice(): Promise<boolean> {
+    const originalItemPriceList = await this.getItemPriceList();
+
+    const sortedItemPriceList = sortArray(originalItemPriceList, false);
+
+    // return originalItemNameList.every(
+    //   (value, index) => value === sortedItemNameList[index]
+    // );
+
+    return isArraySorted(originalItemPriceList, sortedItemPriceList);
   }
 }
