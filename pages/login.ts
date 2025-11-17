@@ -32,17 +32,17 @@ export class LoginPage {
     this.openMenuLink = page.getByRole("button", { name: "Open Menu" });
     this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
   }
-  async goto() {
+  async goto(): Promise<void> {
     await this.page.goto(this.url);
   }
 
-  async login(username: string, password: string) {
+  async login(username: string, password: string): Promise<void> {
     await this.usernameTextField.fill(username);
     await this.passwordTextField.fill(password);
     await this.loginButton.click();
   }
 
-  async logout() {
+  async logout(): Promise<void> {
     await this.openMenuLink.click();
     await this.logoutLink.click();
   }
