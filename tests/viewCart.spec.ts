@@ -25,9 +25,10 @@ test("view cart details page shows the elements properly", async ({
 
   const cart = new CartPage(page);
 
-  expect(page.url(), "correct view cart url should be in the bar").toContain(
-    cart.viewCartUrl
-  );
+  expect(
+    page.url(),
+    "user should be taken to correct view cart page"
+  ).toContain(cart.viewCartUrl);
 
   // Verify cart is displayed with correct attributes
   await expect(cart.title, "cart title should be displayed").toBeVisible();
@@ -74,7 +75,7 @@ test("view cart details page shows the elements properly", async ({
   ).toBeVisible();
 });
 
-test("clicking continue shopping button take user to product list page", async ({
+test("clicking continue shopping button takes user to inventory page", async ({
   page,
   login,
 }) => {
@@ -91,10 +92,35 @@ test("clicking continue shopping button take user to product list page", async (
 
   const cart = new CartPage(page);
 
-  // Click continue shoppint button
+  // Click continue shopping button
   await cart.continueShoppingButton.click();
 
-  expect(page.url(), "correct product list url should be in the bar").toContain(
+  expect(page.url(), "user should be taken to inventory page").toContain(
     inventory.inventoryUrl
+  );
+});
+
+test("clicking checkout button takes user to checkout page", async ({
+  page,
+  login,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  const shoppingCartLink = inventory.shoppingCartLink;
+  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
+
+  // Click add to cart of the first item on the list
+  await addToCartButton.click();
+
+  // Click shopping cart link to view the details
+  await shoppingCartLink.click();
+
+  const cart = new CartPage(page);
+
+  // Click checkout button
+  await cart.checkoutButton.click();
+
+  expect(page.url(), "user should be taken to checkout page").toContain(
+    inventory.checkoutUrl
   );
 });
