@@ -3,7 +3,10 @@ import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 import { CartPage } from "../pages/cart";
 
-test("view cart details page", async ({ page, login }) => {
+test("view cart details page shows the elements properly", async ({
+  page,
+  login,
+}) => {
   const inventory = new InventoryPage(page);
 
   const shoppingCartLink = inventory.shoppingCartLink;
@@ -69,4 +72,29 @@ test("view cart details page", async ({ page, login }) => {
     cart.checkoutButton,
     "checkout button should be displayed"
   ).toBeVisible();
+});
+
+test("clicking continue shopping button take user to product list page", async ({
+  page,
+  login,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  const shoppingCartLink = inventory.shoppingCartLink;
+  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
+
+  // Click add to cart of the first item on the list
+  await addToCartButton.click();
+
+  // Click shopping cart link to view the details
+  await shoppingCartLink.click();
+
+  const cart = new CartPage(page);
+
+  // Click continue shoppint button
+  await cart.continueShoppingButton.click();
+
+  expect(page.url(), "correct product list url should be in the bar").toContain(
+    inventory.inventoryUrl
+  );
 });
