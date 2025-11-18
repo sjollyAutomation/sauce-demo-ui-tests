@@ -15,6 +15,7 @@ export class LoginPage {
   readonly openMenuLink: Locator;
   readonly sortingContainer: Locator;
   readonly logoutLink: Locator;
+  readonly loginCredentialsContainer: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -31,9 +32,13 @@ export class LoginPage {
     );
     this.openMenuLink = page.getByRole("button", { name: "Open Menu" });
     this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
+    this.loginCredentialsContainer = page.locator(
+      '[data-test="login-credentials"]'
+    );
   }
   async goto(): Promise<void> {
     await this.page.goto(this.url);
+    await this.loginCredentialsContainer.waitFor({ state: "visible" });
   }
 
   async login(username: string, password: string): Promise<void> {

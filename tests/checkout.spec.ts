@@ -53,7 +53,7 @@ test("checkout page shows the elements correctly", async ({ page, login }) => {
   ).toBeVisible();
 });
 
-test("clicking cancel button take the user back to view cart page", async ({
+test("clicking cancel button takes the user back to view cart page", async ({
   login,
   page,
 }) => {
@@ -79,5 +79,34 @@ test("clicking cancel button take the user back to view cart page", async ({
 
   expect(page.url(), "user should be taken back to view cart page").toContain(
     cart.viewCartUrl
+  );
+});
+
+test("filling up the required field and clicking continue button takes the user to checkout confirmation page", async ({
+  login,
+  page,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  const shoppingCartLink = inventory.shoppingCartLink;
+  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
+
+  // Click add to cart of the first item on the list
+  await addToCartButton.click();
+
+  // Click shopping cart link to view the details
+  await shoppingCartLink.click();
+
+  const cart = new CartPage(page);
+
+  // Click checkout button
+  await cart.checkoutButton.click();
+
+  const checkout = new CheckoutPage(page);
+
+  await checkout.continueCheckout();
+
+  expect(page.url(), "user should be taken to confirmation page").toContain(
+    checkout.checkoutConfirmationUrl
   );
 });
