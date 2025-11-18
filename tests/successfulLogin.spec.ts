@@ -27,7 +27,7 @@ test("Elements are displayed properly after successful login", async ({
 
   const inventory = new InventoryPage(page);
 
-  expect(page.url(), "correct product list url should be in the bar").toContain(
+  expect(page.url(), "user should be taken to inventory page").toContain(
     inventory.inventoryUrl
   );
 });

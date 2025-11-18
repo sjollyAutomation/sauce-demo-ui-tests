@@ -23,6 +23,7 @@ export class InventoryPage {
   readonly shoppingCartLink: Locator;
   readonly activeSortOption: Locator;
   readonly inventoryUrl: string;
+  readonly checkoutUrl: string;
 
   constructor(page: Page) {
     this.page = page;
@@ -51,6 +52,7 @@ export class InventoryPage {
     this.shoppingCartLink = page.locator('[data-test="shopping-cart-link"]');
     this.activeSortOption = page.locator('[data-test="active-option"]');
     this.inventoryUrl = "/inventory.html";
+    this.checkoutUrl = "/checkout-step-one.html";
   }
 
   async firstInventoryItemAddToCartButton(): Promise<Locator> {
