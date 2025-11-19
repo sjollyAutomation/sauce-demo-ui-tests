@@ -81,14 +81,8 @@ test("clicking continue shopping button takes user to inventory page", async ({
 }) => {
   const inventory = new InventoryPage(page);
 
-  const shoppingCartLink = inventory.shoppingCartLink;
-  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
-
-  // Click add to cart of the first item on the list
-  await addToCartButton.click();
-
-  // Click shopping cart link to view the details
-  await shoppingCartLink.click();
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
 
   const cart = new CartPage(page);
 
@@ -106,14 +100,8 @@ test("clicking checkout button takes user to checkout page", async ({
 }) => {
   const inventory = new InventoryPage(page);
 
-  const shoppingCartLink = inventory.shoppingCartLink;
-  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
-
-  // Click add to cart of the first item on the list
-  await addToCartButton.click();
-
-  // Click shopping cart link to view the details
-  await shoppingCartLink.click();
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
 
   const cart = new CartPage(page);
 

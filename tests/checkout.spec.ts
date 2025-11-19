@@ -7,14 +7,8 @@ import { CheckoutPage } from "../pages/checkout";
 test("checkout page shows the elements correctly", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
 
-  const shoppingCartLink = inventory.shoppingCartLink;
-  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
-
-  // Click add to cart of the first item on the list
-  await addToCartButton.click();
-
-  // Click shopping cart link to view the details
-  await shoppingCartLink.click();
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
 
   const cart = new CartPage(page);
 
@@ -59,14 +53,8 @@ test("clicking cancel button takes the user back to view cart page", async ({
 }) => {
   const inventory = new InventoryPage(page);
 
-  const shoppingCartLink = inventory.shoppingCartLink;
-  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
-
-  // Click add to cart of the first item on the list
-  await addToCartButton.click();
-
-  // Click shopping cart link to view the details
-  await shoppingCartLink.click();
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
 
   const cart = new CartPage(page);
 
@@ -88,14 +76,8 @@ test("filling up the required field and clicking continue button takes the user 
 }) => {
   const inventory = new InventoryPage(page);
 
-  const shoppingCartLink = inventory.shoppingCartLink;
-  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
-
-  // Click add to cart of the first item on the list
-  await addToCartButton.click();
-
-  // Click shopping cart link to view the details
-  await shoppingCartLink.click();
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
 
   const cart = new CartPage(page);
 
