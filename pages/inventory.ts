@@ -55,8 +55,36 @@ export class InventoryPage {
     this.checkoutUrl = "/checkout-step-one.html";
   }
 
+  async getTextContent(itemNameLocator: Locator): Promise<string | null> {
+    return await itemNameLocator.textContent();
+  }
+
+  async getFirstItemNameText(): Promise<string | null> {
+    return this.getTextContent(this.firstInventoryItemName);
+  }
+
+  async getItemNameText(): Promise<string | null> {
+    return this.getTextContent(this.itemName);
+  }
+
+  async getFirstItemDescriptionText(): Promise<string | null> {
+    return this.getTextContent(this.firstInventoryItemDescription);
+  }
+
+  async getItemDescriptionText(): Promise<string | null> {
+    return this.getTextContent(this.itemDescription);
+  }
+
+  async getFirstItemPriceText(): Promise<string | null> {
+    return this.getTextContent(this.firstInventoryItemPrice);
+  }
+
+  async getItemPriceText(): Promise<string | null> {
+    return this.getTextContent(this.itemPrice);
+  }
+
   async firstInventoryItemAddToCartButton(): Promise<Locator> {
-    const itemText = await this.firstInventoryItemName.textContent();
+    const itemText = await this.getFirstItemNameText();
 
     if (!itemText) {
       throw new Error("First inventory item name is empty");
@@ -70,7 +98,7 @@ export class InventoryPage {
   }
 
   async firstInventoryItemRemoveButton(): Promise<Locator> {
-    const itemText = await this.firstInventoryItemName.textContent();
+    const itemText = await this.getFirstItemNameText();
 
     if (!itemText) {
       throw new Error("First inventory item name is empty");
@@ -103,9 +131,6 @@ export class InventoryPage {
 
     const sortedItemNameList = sortArray(originalItemNameList);
 
-    // return originalItemNameList.every(
-    //   (value, index) => value === sortedItemNameList[index]
-    // );
     return isArraySorted(originalItemNameList, sortedItemNameList);
   }
 
@@ -114,9 +139,6 @@ export class InventoryPage {
 
     const sortedItemPriceList = sortArray(originalItemPriceList);
 
-    // return originalItemPriceList.every(
-    //   (value, index) => value === sortedItemPriceList[index]
-    // );
     return isArraySorted(originalItemPriceList, sortedItemPriceList);
   }
 
@@ -124,10 +146,6 @@ export class InventoryPage {
     const originalItemNameList = await this.getItemNameList();
 
     const sortedItemNameList = sortArray(originalItemNameList, false);
-
-    // return originalItemNameList.every(
-    //   (value, index) => value === sortedItemNameList[index]
-    // );
 
     return isArraySorted(originalItemNameList, sortedItemNameList);
   }
@@ -137,10 +155,12 @@ export class InventoryPage {
 
     const sortedItemPriceList = sortArray(originalItemPriceList, false);
 
-    // return originalItemNameList.every(
-    //   (value, index) => value === sortedItemNameList[index]
-    // );
-
     return isArraySorted(originalItemPriceList, sortedItemPriceList);
+  }
+
+  async navigateToViewCartPage(): Promise<void> {
+    const addToCartButton = await this.firstInventoryItemAddToCartButton();
+    await addToCartButton.click();
+    await this.shoppingCartLink.click();
   }
 }

@@ -16,10 +16,9 @@ test("inventory details are displayed properly", async ({ page, login }) => {
   ).toBeVisible();
 
   // Get the element text values of first item
-  const firstName = await inventory.firstInventoryItemName.textContent();
-  const firstDescription =
-    await inventory.firstInventoryItemDescription.textContent();
-  const firstPrice = await inventory.firstInventoryItemPrice.textContent();
+  const firstName = await inventory.getFirstItemNameText();
+  const firstDescription = await inventory.getFirstItemDescriptionText();
+  const firstPrice = await inventory.getFirstItemPriceText();
 
   // First item on the list is displayed properly along with all the attributes
   await expect(
@@ -53,15 +52,15 @@ test("inventory details are displayed properly", async ({ page, login }) => {
   ).toBeVisible();
   await expect(inventory.itemImage, "image is visible properly").toBeVisible();
   expect(
-    await inventory.itemName.textContent(),
+    await inventory.getItemNameText(),
     "name is displayed correctly"
   ).toEqual(firstName);
   expect(
-    await inventory.itemDescription.textContent(),
+    await inventory.getItemDescriptionText(),
     "description is shown properly"
   ).toEqual(firstDescription);
   expect(
-    await inventory.itemPrice.textContent(),
+    await inventory.getItemPriceText(),
     "correct price is displayed"
   ).toEqual(firstPrice);
   await expect(
