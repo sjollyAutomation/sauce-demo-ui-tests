@@ -12,10 +12,9 @@ test("view cart details page shows the elements properly", async ({
   const shoppingCartLink = inventory.shoppingCartLink;
   const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
   const removeButton = await inventory.firstInventoryItemRemoveButton();
-  const firstName = await inventory.firstInventoryItemName.textContent();
-  const firstDescription =
-    await inventory.firstInventoryItemDescription.textContent();
-  const firstPrice = await inventory.firstInventoryItemPrice.textContent();
+  const firstName = await inventory.getFirstItemNameText();
+  const firstDescription = await inventory.getFirstItemDescriptionText();
+  const firstPrice = await inventory.getFirstItemPriceText();
 
   // Click add to cart of the first item on the list
   await addToCartButton.click();
@@ -50,16 +49,15 @@ test("view cart details page shows the elements properly", async ({
     cart.itemQuantity,
     "correct item quantity is displayed"
   ).toHaveText("1");
+  expect(await cart.getItemNameText(), "item name should be correct").toEqual(
+    firstName
+  );
   expect(
-    await cart.itemName.textContent(),
-    "item name should be correct"
-  ).toEqual(firstName);
-  expect(
-    await cart.itemDescription.textContent(),
+    await cart.getItemDescriptionText(),
     "item description should be correct"
   ).toEqual(firstDescription);
   expect(
-    await cart.itemPrice.textContent(),
+    await cart.getItemPriceText(),
     "item price should have correct value"
   ).toEqual(firstPrice);
   await expect(removeButton, "remove button should be available").toBeVisible();

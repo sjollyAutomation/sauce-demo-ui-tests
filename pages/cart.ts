@@ -1,4 +1,5 @@
 import { Page, Locator } from "@playwright/test";
+import { getTextContent } from "../helpers/stringhelper";
 
 export class CartPage {
   readonly page: Page;
@@ -32,5 +33,17 @@ export class CartPage {
     );
     this.checkoutButton = page.locator("[data-test='checkout']");
     this.viewCartUrl = "/cart.html";
+  }
+
+  async getItemNameText(): Promise<string> {
+    return await getTextContent(this.itemName);
+  }
+
+  async getItemDescriptionText(): Promise<string> {
+    return await getTextContent(this.itemDescription);
+  }
+
+  async getItemPriceText(): Promise<string> {
+    return await getTextContent(this.itemPrice);
   }
 }

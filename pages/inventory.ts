@@ -1,6 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import { LoginPage } from "./login";
-import { getConvertedText } from "../helpers/stringhelper";
+import { getConvertedText, getTextContent } from "../helpers/stringhelper";
 import { sortArray, isArraySorted } from "../helpers/sortHelper";
 
 export class InventoryPage {
@@ -21,6 +21,7 @@ export class InventoryPage {
   readonly itemRemoveButton: Locator;
   readonly backToProductsLink: Locator;
   readonly shoppingCartLink: Locator;
+  readonly shoppingCartBadge: Locator;
   readonly activeSortOption: Locator;
   readonly inventoryUrl: string;
   readonly checkoutUrl: string;
@@ -50,37 +51,34 @@ export class InventoryPage {
     this.itemRemoveButton = page.locator('[data-test="remove"]');
     this.backToProductsLink = page.locator('[data-test="back-to-products"]');
     this.shoppingCartLink = page.locator('[data-test="shopping-cart-link"]');
+    this.shoppingCartBadge = page.locator('[data-test="shopping-cart-badge"]');
     this.activeSortOption = page.locator('[data-test="active-option"]');
     this.inventoryUrl = "/inventory.html";
     this.checkoutUrl = "/checkout-step-one.html";
   }
 
-  async getTextContent(itemNameLocator: Locator): Promise<string | null> {
-    return await itemNameLocator.textContent();
+  async getFirstItemNameText(): Promise<string> {
+    return await getTextContent(this.firstInventoryItemName);
   }
 
-  async getFirstItemNameText(): Promise<string | null> {
-    return this.getTextContent(this.firstInventoryItemName);
+  async getItemNameText(): Promise<string> {
+    return await getTextContent(this.itemName);
   }
 
-  async getItemNameText(): Promise<string | null> {
-    return this.getTextContent(this.itemName);
+  async getFirstItemDescriptionText(): Promise<string> {
+    return await getTextContent(this.firstInventoryItemDescription);
   }
 
-  async getFirstItemDescriptionText(): Promise<string | null> {
-    return this.getTextContent(this.firstInventoryItemDescription);
+  async getItemDescriptionText(): Promise<string> {
+    return await getTextContent(this.itemDescription);
   }
 
-  async getItemDescriptionText(): Promise<string | null> {
-    return this.getTextContent(this.itemDescription);
+  async getFirstItemPriceText(): Promise<string> {
+    return await getTextContent(this.firstInventoryItemPrice);
   }
 
-  async getFirstItemPriceText(): Promise<string | null> {
-    return this.getTextContent(this.firstInventoryItemPrice);
-  }
-
-  async getItemPriceText(): Promise<string | null> {
-    return this.getTextContent(this.itemPrice);
+  async getItemPriceText(): Promise<string> {
+    return await getTextContent(this.itemPrice);
   }
 
   async firstInventoryItemAddToCartButton(): Promise<Locator> {
