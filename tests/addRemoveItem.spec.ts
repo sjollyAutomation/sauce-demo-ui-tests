@@ -9,15 +9,15 @@ test("add and remove item on product list page", async ({ page, login }) => {
   ).toBeVisible();
 
   const inventory = new InventoryPage(page);
-  const shoppingCartLink = inventory.shoppingCartLink;
+  const shoppingCartBadge = inventory.shoppingCartBadge;
   const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
   const removeButton = await inventory.firstInventoryItemRemoveButton();
 
   // Verify adding item to the cart on product list page works properly
-  await verifyAddItem(shoppingCartLink, addToCartButton, removeButton);
+  await verifyAddItem(shoppingCartBadge, addToCartButton, removeButton);
 
   // Verify removing item from the cart on product list page works properly
-  await verifyRemoveItem(shoppingCartLink, addToCartButton, removeButton);
+  await verifyRemoveItem(shoppingCartBadge, addToCartButton, removeButton);
 });
 
 test("add and remove item on product details page", async ({ page, login }) => {
@@ -31,27 +31,27 @@ test("add and remove item on product details page", async ({ page, login }) => {
   // Go to first item details page
   await inventory.firstInventoryItemName.click();
 
-  const shoppingCartLink = inventory.shoppingCartLink;
+  const shoppingCartBadge = inventory.shoppingCartBadge;
   const addToCartButton = inventory.itemAddToCartButton;
   const removeButton = inventory.itemRemoveButton;
 
   // Verify adding item to the cart on product details page works properly
-  await verifyAddItem(shoppingCartLink, addToCartButton, removeButton);
+  await verifyAddItem(shoppingCartBadge, addToCartButton, removeButton);
 
   // Verify removing item from the cart on product details page works properly
-  await verifyRemoveItem(shoppingCartLink, addToCartButton, removeButton);
+  await verifyRemoveItem(shoppingCartBadge, addToCartButton, removeButton);
 });
 
 async function verifyAddItem(
-  shoppingCartLink: Locator,
+  shoppingCartBadge: Locator,
   addItemButton: Locator,
   removeItemButton: Locator
 ) {
   // Verify the default status of the elements is correct
   expect(
-    await shoppingCartLink.textContent(),
-    "shopping cart should be empty by default"
-  ).toEqual("");
+    shoppingCartBadge,
+    "shopping cart badge is hidden when the cart is empty"
+  ).toBeHidden();
 
   await expect(
     addItemButton,
@@ -65,9 +65,13 @@ async function verifyAddItem(
 
   // Verify elements are updated properly after adding an item to cart
   expect(
-    await shoppingCartLink.textContent(),
-    "shopping cart should have one item added"
-  ).toEqual("1");
+    shoppingCartBadge,
+    "shopping cart badge is displayed when the cart is not empty"
+  ).toBeVisible();
+  expect(
+    shoppingCartBadge,
+    "shopping cart badge should have one item added"
+  ).toHaveText("1");
 
   await expect(
     addItemButton,
@@ -81,15 +85,19 @@ async function verifyAddItem(
 }
 
 async function verifyRemoveItem(
-  shoppingCartLink: Locator,
+  shoppingCartBadge: Locator,
   addItemButton: Locator,
   removeItemButton: Locator
 ) {
   // Verify the elements are displayed properly when items are added to the cart
   expect(
-    await shoppingCartLink.textContent(),
-    "shopping cart shouldn't be empty after adding items"
-  ).toEqual("1");
+    shoppingCartBadge,
+    "shopping cart badge is displayed when the cart is not empty"
+  ).toBeVisible();
+  expect(
+    shoppingCartBadge,
+    "shopping cart badge should have one item added"
+  ).toHaveText("1");
 
   await expect(
     removeItemButton,
@@ -106,9 +114,9 @@ async function verifyRemoveItem(
 
   // Verify elements are updated properly after removing items from the cart
   expect(
-    await shoppingCartLink.textContent(),
-    "shopping cart should be empty after removing added items"
-  ).toEqual("");
+    shoppingCartBadge,
+    "shopping cart badge should be hidden when cart is empty"
+  ).toBeHidden();
 
   await expect(
     addItemButton,
