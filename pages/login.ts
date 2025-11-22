@@ -10,11 +10,6 @@ export class LoginPage {
   readonly loginButton: Locator;
   readonly errorContainer: Locator;
   readonly errorCloseButton: Locator;
-  readonly primaryHeader: Locator;
-  readonly secondaryHeader: Locator;
-  readonly openMenuLink: Locator;
-  readonly sortingContainer: Locator;
-  readonly logoutLink: Locator;
   readonly loginCredentialsContainer: Locator;
 
   constructor(page: Page) {
@@ -25,13 +20,6 @@ export class LoginPage {
     this.loginButton = page.locator('[data-test="login-button"]');
     this.errorContainer = page.locator('[data-test="error"]');
     this.errorCloseButton = page.locator('[data-test="error-button"] svg');
-    this.primaryHeader = page.locator('[data-test="primary-header"]');
-    this.secondaryHeader = page.locator('[data-test="secondary-header"]');
-    this.sortingContainer = page.locator(
-      '[data-test="product-sort-container"]'
-    );
-    this.openMenuLink = page.getByRole("button", { name: "Open Menu" });
-    this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
     this.loginCredentialsContainer = page.locator(
       '[data-test="login-credentials"]'
     );
@@ -45,10 +33,5 @@ export class LoginPage {
     await this.usernameTextField.fill(username);
     await this.passwordTextField.fill(password);
     await this.loginButton.click();
-  }
-
-  async logout(): Promise<void> {
-    await this.openMenuLink.click();
-    await this.logoutLink.click();
   }
 }

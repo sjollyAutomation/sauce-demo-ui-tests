@@ -1,5 +1,5 @@
 import { Page, Locator } from "@playwright/test";
-import { LoginPage } from "./login";
+import { HeaderContainerWrapper } from "./header";
 import { getConvertedText, getTextContent } from "../helpers/stringhelper";
 import { sortArray, isArraySorted } from "../helpers/sortHelper";
 
@@ -12,19 +12,8 @@ export class InventoryPage {
   readonly firstInventoryItemName: Locator;
   readonly firstInventoryItemDescription: Locator;
   readonly firstInventoryItemPrice: Locator;
-  readonly inventoryItem: Locator;
-  readonly itemImage: Locator;
   readonly itemName: Locator;
-  readonly itemDescription: Locator;
   readonly itemPrice: Locator;
-  readonly itemAddToCartButton: Locator;
-  readonly itemRemoveButton: Locator;
-  readonly backToProductsLink: Locator;
-  readonly shoppingCartLink: Locator;
-  readonly shoppingCartBadge: Locator;
-  readonly activeSortOption: Locator;
-  readonly inventoryUrl: string;
-  readonly checkoutUrl: string;
 
   constructor(page: Page) {
     this.page = page;
@@ -42,43 +31,20 @@ export class InventoryPage {
     this.firstInventoryItemPrice = this.firstInventoryItem.locator(
       '[data-test="inventory-item-price"]'
     );
-    this.inventoryItem = page.locator('[data-test="inventory-item"]');
-    this.itemImage = page.locator('[data-test="item-sauce-labs-backpack-img"]');
     this.itemName = page.locator('[data-test="inventory-item-name"]');
-    this.itemDescription = page.locator('[data-test="inventory-item-desc"]');
     this.itemPrice = page.locator('[data-test="inventory-item-price"]');
-    this.itemAddToCartButton = page.locator('[data-test="add-to-cart"]');
-    this.itemRemoveButton = page.locator('[data-test="remove"]');
-    this.backToProductsLink = page.locator('[data-test="back-to-products"]');
-    this.shoppingCartLink = page.locator('[data-test="shopping-cart-link"]');
-    this.shoppingCartBadge = page.locator('[data-test="shopping-cart-badge"]');
-    this.activeSortOption = page.locator('[data-test="active-option"]');
-    this.inventoryUrl = "/inventory.html";
-    this.checkoutUrl = "/checkout-step-one.html";
   }
 
   async getFirstItemNameText(): Promise<string> {
     return await getTextContent(this.firstInventoryItemName);
   }
 
-  async getItemNameText(): Promise<string> {
-    return await getTextContent(this.itemName);
-  }
-
   async getFirstItemDescriptionText(): Promise<string> {
     return await getTextContent(this.firstInventoryItemDescription);
   }
 
-  async getItemDescriptionText(): Promise<string> {
-    return await getTextContent(this.itemDescription);
-  }
-
   async getFirstItemPriceText(): Promise<string> {
     return await getTextContent(this.firstInventoryItemPrice);
-  }
-
-  async getItemPriceText(): Promise<string> {
-    return await getTextContent(this.itemPrice);
   }
 
   async firstInventoryItemAddToCartButton(): Promise<Locator> {
@@ -108,7 +74,7 @@ export class InventoryPage {
   }
 
   async selectSortingOption(optionLabel: string): Promise<void> {
-    const loginPage = new LoginPage(this.page);
+    const loginPage = new HeaderContainerWrapper(this.page);
 
     await loginPage.sortingContainer.selectOption({ label: optionLabel });
   }
@@ -157,8 +123,10 @@ export class InventoryPage {
   }
 
   async navigateToViewCartPage(): Promise<void> {
+    const headerContainerWrapper = new HeaderContainerWrapper(this.page);
+
     const addToCartButton = await this.firstInventoryItemAddToCartButton();
     await addToCartButton.click();
-    await this.shoppingCartLink.click();
+    await headerContainerWrapper.shoppingCartLink.click();
   }
 }

@@ -20,5 +20,11 @@
     "dscName": "Name (Z to A)",
     "ascPrice": "Price (low to high)",
     "dscPrice": "Price (high to low)"
+  },
+  "urls": {
+    "checkoutConfirmationUrl": "/checkout-step-two.html",
+    "checkoutUrl": "/checkout-step-one.html",
+    "inventoryUrl": "/inventory.html",
+    "viewCartUrl": "/cart.html"
   }
 }
