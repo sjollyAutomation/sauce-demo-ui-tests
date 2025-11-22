@@ -1,15 +1,16 @@
 import { test } from "./fixtures/login";
 import { expect, Locator } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
+import { HeaderContainerWrapper } from "../pages/header";
+import { DetailsPage } from "../pages/details";
 
-test("add and remove item on product list page", async ({ page, login }) => {
-  await expect(
-    login.sortingContainer,
-    "product sort container should be visible"
-  ).toBeVisible();
-
+test("Adding and removing item on product list page should work correctly", async ({
+  page,
+  login,
+}) => {
+  const headerContainerWrapper = new HeaderContainerWrapper(page);
   const inventory = new InventoryPage(page);
-  const shoppingCartBadge = inventory.shoppingCartBadge;
+  const shoppingCartBadge = headerContainerWrapper.shoppingCartBadge;
   const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
   const removeButton = await inventory.firstInventoryItemRemoveButton();
 
@@ -20,20 +21,21 @@ test("add and remove item on product list page", async ({ page, login }) => {
   await verifyRemoveItem(shoppingCartBadge, addToCartButton, removeButton);
 });
 
-test("add and remove item on product details page", async ({ page, login }) => {
-  await expect(
-    login.sortingContainer,
-    "product sort container should be visible"
-  ).toBeVisible();
-
+test("Adding and removing item on product details page should work properly", async ({
+  page,
+  login,
+}) => {
+  const headerContainerWrapper = new HeaderContainerWrapper(page);
   const inventory = new InventoryPage(page);
 
   // Go to first item details page
   await inventory.firstInventoryItemName.click();
 
-  const shoppingCartBadge = inventory.shoppingCartBadge;
-  const addToCartButton = inventory.itemAddToCartButton;
-  const removeButton = inventory.itemRemoveButton;
+  const shoppingCartBadge = headerContainerWrapper.shoppingCartBadge;
+
+  const inventoryDetails = new DetailsPage(page);
+  const addToCartButton = inventoryDetails.itemAddToCartButton;
+  const removeButton = inventoryDetails.itemRemoveButton;
 
   // Verify adding item to the cart on product details page works properly
   await verifyAddItem(shoppingCartBadge, addToCartButton, removeButton);

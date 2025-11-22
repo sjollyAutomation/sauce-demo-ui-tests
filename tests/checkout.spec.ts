@@ -3,8 +3,17 @@ import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 import { CartPage } from "../pages/cart";
 import { CheckoutPage } from "../pages/checkout";
+import { expectHeaderVisibleWithText } from "./assertions/header";
+import { HeaderContainerWrapper } from "../pages/header";
+import testData from "../test-data/data.json";
 
-test("checkout page shows the elements correctly", async ({ page, login }) => {
+const viewCartUrl = testData.urls.viewCartUrl;
+const checkoutConfirmationUrl = testData.urls.checkoutConfirmationUrl;
+
+test("Header elements are displayed properly in checkout page", async ({
+  page,
+  login,
+}) => {
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
@@ -17,14 +26,33 @@ test("checkout page shows the elements correctly", async ({ page, login }) => {
 
   const checkout = new CheckoutPage(page);
 
-  // Verify checkout page is displayed with correct attributes
-  await expect(
-    checkout.title,
-    "checkout title should be displayed"
-  ).toBeVisible();
-  await expect(checkout.title, "checkout title should be visible").toHaveText(
-    "Checkout: Your Information"
-  );
+  // Verify header elements are displayed properly
+  const headerContainerWrapper = new HeaderContainerWrapper(page);
+
+  await expectHeaderVisibleWithText(headerContainerWrapper);
+  expect(
+    headerContainerWrapper.headerTitle,
+    "header title should be correct"
+  ).toHaveText("Checkout: Your Information");
+});
+
+test("Checkout page shows the added item information correctly", async ({
+  page,
+  login,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
+
+  const cart = new CartPage(page);
+
+  // Click checkout button
+  await cart.checkoutButton.click();
+
+  const checkout = new CheckoutPage(page);
+
+  // Verify checkout page is displayed with input fields
   await expect(
     checkout.firstNameInputField,
     "first name input field should be displayed"
@@ -37,6 +65,25 @@ test("checkout page shows the elements correctly", async ({ page, login }) => {
     checkout.postalCodeInputField,
     "zip/postal code input field should be displayed"
   ).toBeVisible();
+});
+
+test("Buttons are displayed correctly in checkout page", async ({
+  page,
+  login,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
+
+  const cart = new CartPage(page);
+
+  // Click checkout button
+  await cart.checkoutButton.click();
+
+  const checkout = new CheckoutPage(page);
+
+  // Verify checkout page is displayed with correct button attributes
   await expect(
     checkout.cancelButton,
     "cancel button should be displayed"
@@ -47,7 +94,7 @@ test("checkout page shows the elements correctly", async ({ page, login }) => {
   ).toBeVisible();
 });
 
-test("clicking cancel button takes the user back to view cart page", async ({
+test("Clicking cancel button takes the user back to view cart page", async ({
   login,
   page,
 }) => {
@@ -66,11 +113,11 @@ test("clicking cancel button takes the user back to view cart page", async ({
   await checkout.cancelButton.click();
 
   expect(page.url(), "user should be taken back to view cart page").toContain(
-    cart.viewCartUrl
+    viewCartUrl
   );
 });
 
-test("filling up the required field and clicking continue button takes the user to checkout confirmation page", async ({
+test("Filling up the required field and clicking continue button takes the user to checkout confirmation page", async ({
   login,
   page,
 }) => {
@@ -89,6 +136,6 @@ test("filling up the required field and clicking continue button takes the user 
   await checkout.continueCheckout();
 
   expect(page.url(), "user should be taken to confirmation page").toContain(
-    checkout.checkoutConfirmationUrl
+    checkoutConfirmationUrl
   );
 });

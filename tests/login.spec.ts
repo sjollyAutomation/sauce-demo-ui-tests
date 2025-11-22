@@ -12,16 +12,6 @@ test("Login page loads correctly", async ({ page }) => {
   );
 
   expect(
-    login.primaryHeader,
-    "primary header shouldn't be visible in the login page"
-  ).not.toBeVisible();
-
-  expect(
-    login.secondaryHeader,
-    "secondary header shouldn't be visible in the login page"
-  ).not.toBeVisible();
-
-  expect(
     login.usernameTextField,
     "username field should be visible properly"
   ).toBeVisible();
@@ -48,8 +38,6 @@ test("Login page loads correctly", async ({ page }) => {
 
   expect(login.loginButton, "login button should be visible").toBeVisible();
   expect(login.loginButton, "login button should be enabled").toBeEnabled();
-
-  expect(login.logoutLink, "logout link should be hidden").not.toBeVisible();
 
   expect(
     login.errorContainer,

@@ -1,10 +1,9 @@
 import { Page, Locator } from "@playwright/test";
-import { getTextContent } from "../helpers/stringhelper";
+import { getConvertedText, getTextContent } from "../helpers/stringhelper";
 
 export class CartPage {
   readonly page: Page;
 
-  readonly title: Locator;
   readonly cartList: Locator;
   readonly cartQuantityLabel: Locator;
   readonly cartDescriptionLabel: Locator;
@@ -15,11 +14,9 @@ export class CartPage {
   readonly itemPrice: Locator;
   readonly continueShoppingButton: Locator;
   readonly checkoutButton: Locator;
-  readonly viewCartUrl: string;
 
   constructor(page: Page) {
     this.page = page;
-    this.title = page.locator("[data-test='title']");
     this.cartList = page.locator("[data-test='cart-list']");
     this.cartQuantityLabel = page.locator("[data-test='cart-quantity-label']");
     this.cartDescriptionLabel = page.locator("[data-test='cart-desc-label']");
@@ -32,7 +29,6 @@ export class CartPage {
       "[data-test='continue-shopping']"
     );
     this.checkoutButton = page.locator("[data-test='checkout']");
-    this.viewCartUrl = "/cart.html";
   }
 
   async getItemNameText(): Promise<string> {
@@ -45,5 +41,17 @@ export class CartPage {
 
   async getItemPriceText(): Promise<string> {
     return await getTextContent(this.itemPrice);
+  }
+
+  async getRemoveButton(): Promise<Locator> {
+    const itemText = await this.getItemNameText();
+
+    if (!itemText) {
+      throw new Error("item name is empty");
+    }
+
+    const locatorValue = `[data-test="remove-${getConvertedText(itemText)}"]`;
+
+    return this.page.locator(locatorValue);
   }
 }

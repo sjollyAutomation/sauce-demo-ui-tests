@@ -2,38 +2,54 @@ import { test } from "./fixtures/login";
 import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 import { CartPage } from "../pages/cart";
+import testData from "../test-data/data.json";
+import { HeaderContainerWrapper } from "../pages/header";
+import { expectHeaderVisibleWithText } from "./assertions/header";
 
-test("view cart details page shows the elements properly", async ({
+const checkoutUrl = testData.urls.checkoutUrl;
+const inventoryUrl = testData.urls.inventoryUrl;
+const viewCartUrl = testData.urls.viewCartUrl;
+
+test("Header elements are displayed properly in view cart page", async ({
   page,
   login,
 }) => {
   const inventory = new InventoryPage(page);
 
-  const shoppingCartLink = inventory.shoppingCartLink;
-  const addToCartButton = await inventory.firstInventoryItemAddToCartButton();
-  const removeButton = await inventory.firstInventoryItemRemoveButton();
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
+
+  // Verify header elements are displayed properly
+  const headerContainerWrapper = new HeaderContainerWrapper(page);
+
+  await expectHeaderVisibleWithText(headerContainerWrapper);
+  expect(
+    headerContainerWrapper.headerTitle,
+    "header title should be correct"
+  ).toHaveText("Your Cart");
+});
+
+test("View cart details page shows the added item information properly", async ({
+  page,
+  login,
+}) => {
+  const inventory = new InventoryPage(page);
+
   const firstName = await inventory.getFirstItemNameText();
   const firstDescription = await inventory.getFirstItemDescriptionText();
   const firstPrice = await inventory.getFirstItemPriceText();
 
-  // Click add to cart of the first item on the list
-  await addToCartButton.click();
-
-  // Click shopping cart link to view the details
-  await shoppingCartLink.click();
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
 
   const cart = new CartPage(page);
 
   expect(
     page.url(),
     "user should be taken to correct view cart page"
-  ).toContain(cart.viewCartUrl);
+  ).toContain(viewCartUrl);
 
   // Verify cart is displayed with correct attributes
-  await expect(cart.title, "cart title should be displayed").toBeVisible();
-  await expect(cart.title, "correct title should be visible").toHaveText(
-    "Your Cart"
-  );
   await expect(
     cart.cartQuantityLabel,
     "cart quantity label should be visible"
@@ -60,9 +76,24 @@ test("view cart details page shows the elements properly", async ({
     await cart.getItemPriceText(),
     "item price should have correct value"
   ).toEqual(firstPrice);
-  await expect(removeButton, "remove button should be available").toBeVisible();
+});
 
-  // Verify navigation buttons are displayed correctly
+test("Buttons are displayed properly in view cart page", async ({
+  page,
+  login,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
+
+  const cart = new CartPage(page);
+
+  // Verify associated buttons are displayed correctly
+  await expect(
+    await cart.getRemoveButton(),
+    "remove button should be visible"
+  ).toBeVisible();
   await expect(
     cart.continueShoppingButton,
     "continue shopping button should be visible"
@@ -73,7 +104,7 @@ test("view cart details page shows the elements properly", async ({
   ).toBeVisible();
 });
 
-test("clicking continue shopping button takes user to inventory page", async ({
+test("Clicking continue shopping button takes user to inventory page", async ({
   page,
   login,
 }) => {
@@ -88,11 +119,11 @@ test("clicking continue shopping button takes user to inventory page", async ({
   await cart.continueShoppingButton.click();
 
   expect(page.url(), "user should be taken to inventory page").toContain(
-    inventory.inventoryUrl
+    inventoryUrl
   );
 });
 
-test("clicking checkout button takes user to checkout page", async ({
+test("Clicking checkout button takes user to checkout page", async ({
   page,
   login,
 }) => {
@@ -107,6 +138,6 @@ test("clicking checkout button takes user to checkout page", async ({
   await cart.checkoutButton.click();
 
   expect(page.url(), "user should be taken to checkout page").toContain(
-    inventory.checkoutUrl
+    checkoutUrl
   );
 });

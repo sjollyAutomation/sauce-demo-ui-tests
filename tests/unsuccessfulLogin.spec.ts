@@ -38,7 +38,7 @@ const cases = [
   },
 ];
 
-test.describe("unsuccessful login verification", () => {
+test.describe("Unsuccessful login verification", () => {
   for (const c of cases) {
     test(c.test, async ({ page }) => {
       const login = new LoginPage(page);

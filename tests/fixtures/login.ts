@@ -1,5 +1,6 @@
 import { test as base } from "@playwright/test";
 import { LoginPage } from "../../pages/login";
+import { HeaderContainerWrapper } from "../../pages/header";
 import testData from "../../test-data/data.json";
 
 type LoginFixtures = {
@@ -20,6 +21,7 @@ export const test = base.extend<LoginFixtures>({
     await use(login);
 
     // Logout after the test
-    await login.logout();
+    const headerContainer = new HeaderContainerWrapper(page);
+    await headerContainer.logout();
   },
 });
