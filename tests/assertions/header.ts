@@ -1,5 +1,6 @@
 import { expect } from "@playwright/test";
 import { HeaderContainerWrapper } from "../../pages/header";
+import testTextsData from "../../test-data/texts.json";
 
 export async function expectHeaderVisibleWithText(
   headerContainerWrapper: HeaderContainerWrapper
@@ -24,7 +25,7 @@ export async function expectHeaderVisibleWithText(
   expect(
     headerContainerWrapper.headerLabel,
     "header label should be correct"
-  ).toHaveText("Swag Labs");
+  ).toHaveText(testTextsData.header);
   expect(
     headerContainerWrapper.shoppingCartLink,
     "shopping cart link should be displayed"

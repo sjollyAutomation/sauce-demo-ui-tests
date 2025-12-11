@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { LoginPage } from "../pages/login";
+import testTextsData from "../test-data/texts.json";
 
 test("Login page loads correctly", async ({ page }) => {
   const login = new LoginPage(page);
@@ -8,7 +9,7 @@ test("Login page loads correctly", async ({ page }) => {
 
   // Verify the login page shows only the expected elements
   await expect(login.title, "correct title should be displayed").toHaveText(
-    "Swag Labs"
+    testTextsData.header
   );
 
   expect(
@@ -38,6 +39,10 @@ test("Login page loads correctly", async ({ page }) => {
 
   expect(login.loginButton, "login button should be visible").toBeVisible();
   expect(login.loginButton, "login button should be enabled").toBeEnabled();
+  expect(
+    login.loginButton,
+    "login button should have correct label"
+  ).toHaveText(testTextsData.loginButton);
 
   expect(
     login.errorContainer,

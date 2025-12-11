@@ -2,14 +2,15 @@ import { test } from "./fixtures/login";
 import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 import { CartPage } from "../pages/cart";
-import testData from "../test-data/data.json";
+import testUrlsData from "../test-data/urls.json";
+import testTextsData from "../test-data/texts.json";
 import { HeaderContainerWrapper } from "../pages/header";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { ViewCartPage } from "../pages/viewCart";
 
-const checkoutUrl = testData.urls.checkoutUrl;
-const inventoryUrl = testData.urls.inventoryUrl;
-const viewCartUrl = testData.urls.viewCartUrl;
+const checkoutUrl = testUrlsData.checkoutUrl;
+const inventoryUrl = testUrlsData.inventoryUrl;
+const viewCartUrl = testUrlsData.viewCartUrl;
 
 test("Header elements are displayed properly in view cart page", async ({
   page,
@@ -27,7 +28,7 @@ test("Header elements are displayed properly in view cart page", async ({
   expect(
     headerContainerWrapper.headerTitle,
     "header title should be correct"
-  ).toHaveText("Your Cart");
+  ).toHaveText(testTextsData.viewCartHeader);
 });
 
 test("View cart details page shows the added item information properly", async ({
@@ -97,13 +98,25 @@ test("Buttons are displayed properly in view cart page", async ({
     "remove button should be visible"
   ).toBeVisible();
   await expect(
+    await cart.getRemoveButton(),
+    "remove button should have correct label"
+  ).toHaveText(testTextsData.removeButton);
+  await expect(
     viewCart.continueShoppingButton,
     "continue shopping button should be visible"
   ).toBeVisible();
   await expect(
+    viewCart.continueShoppingButton,
+    "continue shopping button should have correct label"
+  ).toHaveText(testTextsData.continueShoppingButton);
+  await expect(
     viewCart.checkoutButton,
     "checkout button should be displayed"
   ).toBeVisible();
+  await expect(
+    viewCart.checkoutButton,
+    "checkout button should have correct label"
+  ).toHaveText(testTextsData.checkoutButton);
 });
 
 test("Clicking continue shopping button takes user to inventory page", async ({

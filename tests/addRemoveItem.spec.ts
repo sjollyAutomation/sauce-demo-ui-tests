@@ -3,6 +3,7 @@ import { expect, Locator } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 import { HeaderContainerWrapper } from "../pages/header";
 import { DetailsPage } from "../pages/details";
+import testTextsData from "../test-data/texts.json";
 
 test("Adding and removing item on product list page should work correctly", async ({
   page,
@@ -84,6 +85,10 @@ async function verifyAddItem(
     removeItemButton,
     "remove button is displayed for the added item"
   ).toBeVisible();
+  await expect(
+    removeItemButton,
+    "remove button should have the correct label"
+  ).toHaveText(testTextsData.removeButton);
 }
 
 async function verifyRemoveItem(
@@ -105,6 +110,10 @@ async function verifyRemoveItem(
     removeItemButton,
     "remove button should be available for the added items"
   ).toBeVisible();
+  await expect(
+    removeItemButton,
+    "remove button should have the correct label"
+  ).toHaveText(testTextsData.removeButton);
 
   await expect(
     addItemButton,

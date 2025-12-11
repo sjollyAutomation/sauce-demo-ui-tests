@@ -1,0 +1,23 @@
+{
+  "header": "Swag Labs",
+  "inventoryHeader": "Products",
+  "viewCartHeader": "Your Cart",
+  "checkoutHeader": "Checkout: Your Information",
+  "checkoutConfirmationHeader": "Checkout: Overview",
+  "checkoutCompleteHeader": "Checkout: Complete!",
+  "paymentInfoLabel": "Payment Information:",
+  "paymentInfoValue": "SauceCard #31337",
+  "shippingInfoLabel": "Shipping Information:",
+  "shippingInfoValue": "Free Pony Express Delivery!",
+  "priceTotalLabel": "Price Total",
+  "completeHeader": "Thank you for your order!",
+  "completeText": "Your order has been dispatched, and will arrive just as fast as the pony can get there!",
+  "loginButton": "Login",
+  "removeButton": "Remove",
+  "continueShoppingButton": "Continue Shopping",
+  "checkoutButton": "Checkout",
+  "cancelButton": "Cancel",
+  "continueButton": "Continue",
+  "finishButton": "Finish",
+  "backHomeButton": "Back Home"
+}

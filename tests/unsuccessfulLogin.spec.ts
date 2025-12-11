@@ -1,15 +1,16 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from "../pages/login";
-import testData from "../test-data/data.json";
+import testCredentialsData from "../test-data/credentials.json";
+import testErrorData from "../test-data/errorMessages.json";
 
-const standardUserName = testData.users.standardUser;
-const lockedOutUserName = testData.users.lockedOutUser;
-const invalidUserName = testData.users.invalidUser;
-const password = testData.password;
-const lockedOutErrorMessage = testData.errorMessage.lockedOutError;
-const invalidUserErrorMessage = testData.errorMessage.invalidUserError;
-const emptyUsernameErrorMessage = testData.errorMessage.emptyUsernameError;
-const emptyPasswordErrorMessage = testData.errorMessage.emptyPasswordError;
+const standardUserName = testCredentialsData.users.standardUser;
+const lockedOutUserName = testCredentialsData.users.lockedOutUser;
+const invalidUserName = testCredentialsData.users.invalidUser;
+const password = testCredentialsData.password;
+const lockedOutErrorMessage = testErrorData.lockedOutError;
+const invalidUserErrorMessage = testErrorData.invalidUserError;
+const emptyUsernameErrorMessage = testErrorData.emptyUsernameError;
+const emptyPasswordErrorMessage = testErrorData.emptyPasswordError;
 
 const cases = [
   {

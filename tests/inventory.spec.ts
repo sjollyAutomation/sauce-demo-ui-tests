@@ -1,11 +1,12 @@
 import { HeaderContainerWrapper } from "../pages/header";
 import { test } from "./fixtures/login";
 import { expect } from "@playwright/test";
-import testData from "../test-data/data.json";
+import testUrlsData from "../test-data/urls.json";
+import testTextsData from "../test-data/texts.json";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { InventoryPage } from "../pages/inventory";
 
-const inventoryUrl = testData.urls.inventoryUrl;
+const inventoryUrl = testUrlsData.inventoryUrl;
 
 test("User should be taken to inventory page after successful login", async ({
   login,
@@ -29,7 +30,7 @@ test("Header elements are displayed properly", async ({ page, login }) => {
   expect(
     headerContainerWrapper.headerTitle,
     "header title should be correct"
-  ).toHaveText("Products");
+  ).toHaveText(testTextsData.inventoryHeader);
 });
 
 test("Inventory container elements are displayed properly", async ({

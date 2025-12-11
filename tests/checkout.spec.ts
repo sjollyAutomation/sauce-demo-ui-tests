@@ -5,10 +5,11 @@ import { ViewCartPage } from "../pages/viewCart";
 import { CheckoutPage } from "../pages/checkout";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { HeaderContainerWrapper } from "../pages/header";
-import testData from "../test-data/data.json";
+import testUrlsData from "../test-data/urls.json";
+import testTextsData from "../test-data/texts.json";
 
-const viewCartUrl = testData.urls.viewCartUrl;
-const checkoutConfirmationUrl = testData.urls.checkoutConfirmationUrl;
+const viewCartUrl = testUrlsData.viewCartUrl;
+const checkoutConfirmationUrl = testUrlsData.checkoutConfirmationUrl;
 
 test("Header elements are displayed properly in checkout page", async ({
   page,
@@ -33,7 +34,7 @@ test("Header elements are displayed properly in checkout page", async ({
   expect(
     headerContainerWrapper.headerTitle,
     "header title should be correct"
-  ).toHaveText("Checkout: Your Information");
+  ).toHaveText(testTextsData.checkoutHeader);
 });
 
 test("Checkout page shows the input fields correctly", async ({
@@ -89,9 +90,17 @@ test("Buttons are displayed correctly in checkout page", async ({
     "cancel button should be displayed"
   ).toBeVisible();
   await expect(
+    checkout.cancelButton,
+    "cancel button should have correct label"
+  ).toHaveText(testTextsData.cancelButton);
+  await expect(
     checkout.continueButton,
     "continue button should be displayed"
   ).toBeVisible();
+  await expect(
+    checkout.continueButton,
+    "continue button should have correct label"
+  ).toHaveText(testTextsData.continueButton);
 });
 
 test("Clicking cancel button takes the user back to view cart page", async ({

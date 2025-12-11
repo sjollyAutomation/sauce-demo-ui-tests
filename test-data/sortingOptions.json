@@ -1,0 +1,6 @@
+{
+  "ascName": "Name (A to Z)",
+  "dscName": "Name (Z to A)",
+  "ascPrice": "Price (low to high)",
+  "dscPrice": "Price (high to low)"
+}
