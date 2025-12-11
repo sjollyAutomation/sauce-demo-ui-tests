@@ -1,7 +1,7 @@
 import { test } from "./fixtures/login";
 import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
-import { CartPage } from "../pages/cart";
+import { ViewCartPage } from "../pages/viewCart";
 import { CheckoutPage } from "../pages/checkout";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { HeaderContainerWrapper } from "../pages/header";
@@ -19,10 +19,10 @@ test("Header elements are displayed properly in checkout page", async ({
   // Navigate to view cart page while item is added to the cart
   await inventory.navigateToViewCartPage();
 
-  const cart = new CartPage(page);
+  const viewCart = new ViewCartPage(page);
 
   // Click checkout button
-  await cart.checkoutButton.click();
+  await viewCart.checkoutButton.click();
 
   const checkout = new CheckoutPage(page);
 
@@ -36,7 +36,7 @@ test("Header elements are displayed properly in checkout page", async ({
   ).toHaveText("Checkout: Your Information");
 });
 
-test("Checkout page shows the added item information correctly", async ({
+test("Checkout page shows the input fields correctly", async ({
   page,
   login,
 }) => {
@@ -45,10 +45,10 @@ test("Checkout page shows the added item information correctly", async ({
   // Navigate to view cart page while item is added to the cart
   await inventory.navigateToViewCartPage();
 
-  const cart = new CartPage(page);
+  const viewCart = new ViewCartPage(page);
 
   // Click checkout button
-  await cart.checkoutButton.click();
+  await viewCart.checkoutButton.click();
 
   const checkout = new CheckoutPage(page);
 
@@ -76,10 +76,10 @@ test("Buttons are displayed correctly in checkout page", async ({
   // Navigate to view cart page while item is added to the cart
   await inventory.navigateToViewCartPage();
 
-  const cart = new CartPage(page);
+  const viewCart = new ViewCartPage(page);
 
   // Click checkout button
-  await cart.checkoutButton.click();
+  await viewCart.checkoutButton.click();
 
   const checkout = new CheckoutPage(page);
 
@@ -103,10 +103,10 @@ test("Clicking cancel button takes the user back to view cart page", async ({
   // Navigate to view cart page while item is added to the cart
   await inventory.navigateToViewCartPage();
 
-  const cart = new CartPage(page);
+  const viewCart = new ViewCartPage(page);
 
   // Click checkout button
-  await cart.checkoutButton.click();
+  await viewCart.checkoutButton.click();
 
   const checkout = new CheckoutPage(page);
 
@@ -126,10 +126,10 @@ test("Filling up the required field and clicking continue button takes the user 
   // Navigate to view cart page while item is added to the cart
   await inventory.navigateToViewCartPage();
 
-  const cart = new CartPage(page);
+  const viewCart = new ViewCartPage(page);
 
   // Click checkout button
-  await cart.checkoutButton.click();
+  await viewCart.checkoutButton.click();
 
   const checkout = new CheckoutPage(page);
 

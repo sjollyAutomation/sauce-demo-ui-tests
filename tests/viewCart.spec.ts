@@ -5,6 +5,7 @@ import { CartPage } from "../pages/cart";
 import testData from "../test-data/data.json";
 import { HeaderContainerWrapper } from "../pages/header";
 import { expectHeaderVisibleWithText } from "./assertions/header";
+import { ViewCartPage } from "../pages/viewCart";
 
 const checkoutUrl = testData.urls.checkoutUrl;
 const inventoryUrl = testData.urls.inventoryUrl;
@@ -88,6 +89,7 @@ test("Buttons are displayed properly in view cart page", async ({
   await inventory.navigateToViewCartPage();
 
   const cart = new CartPage(page);
+  const viewCart = new ViewCartPage(page);
 
   // Verify associated buttons are displayed correctly
   await expect(
@@ -95,11 +97,11 @@ test("Buttons are displayed properly in view cart page", async ({
     "remove button should be visible"
   ).toBeVisible();
   await expect(
-    cart.continueShoppingButton,
+    viewCart.continueShoppingButton,
     "continue shopping button should be visible"
   ).toBeVisible();
   await expect(
-    cart.checkoutButton,
+    viewCart.checkoutButton,
     "checkout button should be displayed"
   ).toBeVisible();
 });
@@ -113,10 +115,10 @@ test("Clicking continue shopping button takes user to inventory page", async ({
   // Navigate to view cart page while item is added to the cart
   await inventory.navigateToViewCartPage();
 
-  const cart = new CartPage(page);
+  const viewCart = new ViewCartPage(page);
 
   // Click continue shopping button
-  await cart.continueShoppingButton.click();
+  await viewCart.continueShoppingButton.click();
 
   expect(page.url(), "user should be taken to inventory page").toContain(
     inventoryUrl
@@ -132,10 +134,10 @@ test("Clicking checkout button takes user to checkout page", async ({
   // Navigate to view cart page while item is added to the cart
   await inventory.navigateToViewCartPage();
 
-  const cart = new CartPage(page);
+  const viewCart = new ViewCartPage(page);
 
   // Click checkout button
-  await cart.checkoutButton.click();
+  await viewCart.checkoutButton.click();
 
   expect(page.url(), "user should be taken to checkout page").toContain(
     checkoutUrl
