@@ -7,9 +7,11 @@ import { expectHeaderVisibleWithText } from "./assertions/header";
 import { HeaderContainerWrapper } from "../pages/header";
 import { ConfirmationPage } from "../pages/confirmation";
 import { ViewCartPage } from "../pages/viewCart";
-import testData from "../test-data/data.json";
+import testUrlsData from "../test-data/urls.json";
+import testTextsData from "../test-data/texts.json";
 
-const inventoryUrl = testData.urls.inventoryUrl;
+const inventoryUrl = testUrlsData.inventoryUrl;
+const checkoutCompleteUrl = testUrlsData.checkoutCompleteUrl;
 
 test("Header elements are displayed properly in confirmation page", async ({
   page,
@@ -36,7 +38,7 @@ test("Header elements are displayed properly in confirmation page", async ({
   expect(
     headerContainerWrapper.headerTitle,
     "header title should be correct"
-  ).toHaveText("Checkout: Overview");
+  ).toHaveText(testTextsData.checkoutConfirmationHeader);
 });
 
 test("Confirmation page shows the added item information correctly", async ({
@@ -121,7 +123,7 @@ test("Confirmation page summary info correctly", async ({ page, login }) => {
   await expect(
     confirmation.paymentInfoLabel,
     "correct payment info label is displayed"
-  ).toHaveText("Payment Information:");
+  ).toHaveText(testTextsData.paymentInfoLabel);
   await expect(
     confirmation.paymentInfoValue,
     "payment info value should be displayed"
@@ -129,7 +131,7 @@ test("Confirmation page summary info correctly", async ({ page, login }) => {
   await expect(
     confirmation.paymentInfoValue,
     "correct payment info value is displayed"
-  ).toHaveText("SauceCard #31337");
+  ).toHaveText(testTextsData.paymentInfoValue);
 
   await expect(
     confirmation.shippingInfoLabel,
@@ -138,7 +140,7 @@ test("Confirmation page summary info correctly", async ({ page, login }) => {
   await expect(
     confirmation.shippingInfoLabel,
     "correct shipping info label is displayed"
-  ).toHaveText("Shipping Information:");
+  ).toHaveText(testTextsData.shippingInfoLabel);
   await expect(
     confirmation.shippingInfoValue,
     "shipping info value should be displayed"
@@ -146,7 +148,7 @@ test("Confirmation page summary info correctly", async ({ page, login }) => {
   await expect(
     confirmation.shippingInfoValue,
     "correct shipping info value is displayed"
-  ).toHaveText("Free Pony Express Delivery!");
+  ).toHaveText(testTextsData.shippingInfoValue);
 
   await expect(
     confirmation.totalInfoLabel,
@@ -155,7 +157,7 @@ test("Confirmation page summary info correctly", async ({ page, login }) => {
   await expect(
     confirmation.totalInfoLabel,
     "correct total info label is displayed"
-  ).toHaveText("Price Total");
+  ).toHaveText(testTextsData.priceTotalLabel);
 
   await expect(
     confirmation.subtotalLabel,
@@ -211,9 +213,17 @@ test("Buttons are displayed correctly in confirmation page", async ({
     "cancel button should be displayed"
   ).toBeVisible();
   await expect(
+    confirmation.cancelButton,
+    "cancel button should have correct label"
+  ).toHaveText(testTextsData.cancelButton);
+  await expect(
     confirmation.finishButton,
     "finish button should be displayed"
   ).toBeVisible();
+  await expect(
+    confirmation.finishButton,
+    "finish button should have correct label"
+  ).toHaveText(testTextsData.finishButton);
 });
 
 test("Clicking cancel button takes the user back to view cart page", async ({
@@ -240,5 +250,32 @@ test("Clicking cancel button takes the user back to view cart page", async ({
 
   expect(page.url(), "user should be taken back to inventory page").toContain(
     inventoryUrl
+  );
+});
+
+test("Clicking finish button takes the user to complete page", async ({
+  login,
+  page,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
+
+  const viewCart = new ViewCartPage(page);
+
+  // Click checkout button
+  await viewCart.checkoutButton.click();
+
+  const checkout = new CheckoutPage(page);
+
+  await checkout.continueCheckout();
+
+  const confirmation = new ConfirmationPage(page);
+
+  await confirmation.finishButton.click();
+
+  expect(page.url(), "user should be taken to complete page").toContain(
+    checkoutCompleteUrl
   );
 });

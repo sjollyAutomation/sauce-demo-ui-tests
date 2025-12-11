@@ -1,0 +1,7 @@
+{
+  "checkoutCompleteUrl": "/checkout-complete.html",
+  "checkoutConfirmationUrl": "/checkout-step-two.html",
+  "checkoutUrl": "/checkout-step-one.html",
+  "inventoryUrl": "/inventory.html",
+  "viewCartUrl": "/cart.html"
+}
