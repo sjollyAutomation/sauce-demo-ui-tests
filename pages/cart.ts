@@ -12,8 +12,6 @@ export class CartPage {
   readonly itemName: Locator;
   readonly itemDescription: Locator;
   readonly itemPrice: Locator;
-  readonly continueShoppingButton: Locator;
-  readonly checkoutButton: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -25,10 +23,6 @@ export class CartPage {
     this.itemName = page.locator("[data-test='inventory-item-name']");
     this.itemDescription = page.locator("[data-test='inventory-item-desc']");
     this.itemPrice = page.locator("[data-test='inventory-item-price']");
-    this.continueShoppingButton = page.locator(
-      "[data-test='continue-shopping']"
-    );
-    this.checkoutButton = page.locator("[data-test='checkout']");
   }
 
   async getItemNameText(): Promise<string> {

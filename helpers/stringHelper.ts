@@ -24,3 +24,11 @@ export async function getTextContent(elementLocator: Locator): Promise<string> {
   const textContent = await elementLocator.textContent();
   return textContent?.trim() ?? "";
 }
+
+export function getAmountFromString(stringAmount: string): number {
+  const amountStr = stringAmount.match(/\d+\.\d{2}/)?.[0] ?? "0";
+
+  const amount = parseFloat(amountStr);
+
+  return amount;
+}
