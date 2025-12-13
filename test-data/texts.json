@@ -19,5 +19,10 @@
   "cancelButton": "Cancel",
   "continueButton": "Continue",
   "finishButton": "Finish",
-  "backHomeButton": "Back Home"
+  "backHomeButton": "Back Home",
+  "closeMenu": "Close Menu",
+  "allItemsMenuItem": "All Items",
+  "aboutMenuItem": "About",
+  "resetAppStateMenuItem": "Reset App State",
+  "logoutMenuItem": "Logout"
 }

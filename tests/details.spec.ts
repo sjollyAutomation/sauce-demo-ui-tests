@@ -4,6 +4,7 @@ import { InventoryPage } from "../pages/inventory";
 import { HeaderContainerWrapper } from "../pages/header";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { DetailsPage } from "../pages/details";
+import { MenuElements } from "../pages/menu";
 
 test("Product details are displayed properly", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
@@ -56,4 +57,22 @@ test("Product details are displayed properly", async ({ page, login }) => {
     inventoryDetails.backToProductsLink,
     "back to products link is hidden on the item list page"
   ).not.toBeVisible();
+});
+
+test("Menu is displayed properly in product details page", async ({
+  page,
+  login,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  // Click on the name link
+  await inventory.firstInventoryItemName.click();
+
+  // Verify menu is displayed properly
+  const menuElements = new MenuElements(page);
+
+  expect(
+    menuElements.openMenuLink,
+    "open menu link should be visible"
+  ).toBeVisible();
 });

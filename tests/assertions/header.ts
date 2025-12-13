@@ -15,14 +15,6 @@ export async function expectHeaderVisibleWithText(
     "primary header should be visible"
   ).toBeVisible();
   expect(
-    headerContainerWrapper.openMenuLink,
-    "open menu link should be visible"
-  ).toBeVisible();
-  expect(
-    headerContainerWrapper.logoutLink,
-    "logout link should be visible"
-  ).toBeVisible();
-  expect(
     headerContainerWrapper.headerLabel,
     "header label should be correct"
   ).toHaveText(testTextsData.header);

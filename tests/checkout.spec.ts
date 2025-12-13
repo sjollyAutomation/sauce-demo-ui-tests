@@ -3,6 +3,7 @@ import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 import { ViewCartPage } from "../pages/viewCart";
 import { CheckoutPage } from "../pages/checkout";
+import { MenuElements } from "../pages/menu";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { HeaderContainerWrapper } from "../pages/header";
 import testUrlsData from "../test-data/urls.json";
@@ -25,8 +26,6 @@ test("Header elements are displayed properly in checkout page", async ({
   // Click checkout button
   await viewCart.checkoutButton.click();
 
-  const checkout = new CheckoutPage(page);
-
   // Verify header elements are displayed properly
   const headerContainerWrapper = new HeaderContainerWrapper(page);
 
@@ -35,6 +34,26 @@ test("Header elements are displayed properly in checkout page", async ({
     headerContainerWrapper.headerTitle,
     "header title should be correct"
   ).toHaveText(testTextsData.checkoutHeader);
+});
+
+test("Menu is displayed properly in checkout page", async ({ page, login }) => {
+  const inventory = new InventoryPage(page);
+
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
+
+  const viewCart = new ViewCartPage(page);
+
+  // Click checkout button
+  await viewCart.checkoutButton.click();
+
+  // Verify menu is displayed properly
+  const menuElements = new MenuElements(page);
+
+  expect(
+    menuElements.openMenuLink,
+    "open menu link should be visible"
+  ).toBeVisible();
 });
 
 test("Checkout page shows the input fields correctly", async ({

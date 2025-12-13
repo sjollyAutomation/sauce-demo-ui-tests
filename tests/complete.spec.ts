@@ -9,6 +9,7 @@ import { ViewCartPage } from "../pages/viewCart";
 import testUrlsData from "../test-data/urls.json";
 import testTextsData from "../test-data/texts.json";
 import { CompletePage } from "../pages/complete";
+import { MenuElements } from "../pages/menu";
 
 const inventoryUrl = testUrlsData.inventoryUrl;
 
@@ -42,6 +43,34 @@ test("Header elements are displayed properly in complete page", async ({
     headerContainerWrapper.headerTitle,
     "header title should be correct"
   ).toHaveText(testTextsData.checkoutCompleteHeader);
+});
+
+test("Menu is displayed properly in complete page", async ({ page, login }) => {
+  const inventory = new InventoryPage(page);
+
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
+
+  const viewCart = new ViewCartPage(page);
+
+  // Click checkout button
+  await viewCart.checkoutButton.click();
+
+  const checkout = new CheckoutPage(page);
+
+  await checkout.continueCheckout();
+
+  const confirmation = new ConfirmationPage(page);
+
+  await confirmation.finishButton.click();
+
+  // Verify menu is displayed properly
+  const menuElements = new MenuElements(page);
+
+  expect(
+    menuElements.openMenuLink,
+    "open menu link should be visible"
+  ).toBeVisible();
 });
 
 test("Complete page shows all the success info properly", async ({

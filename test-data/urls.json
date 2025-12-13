@@ -1,4 +1,5 @@
 {
+  "aboutMenuItemUrl": "https://saucelabs.com/",
   "checkoutCompleteUrl": "/checkout-complete.html",
   "checkoutConfirmationUrl": "/checkout-step-two.html",
   "checkoutUrl": "/checkout-step-one.html",

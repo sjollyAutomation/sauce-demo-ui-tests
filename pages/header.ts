@@ -11,9 +11,7 @@ export class HeaderContainerWrapper {
   readonly shoppingCartBadge: Locator;
   readonly secondaryHeader: Locator;
   readonly headerTitle: Locator;
-  readonly openMenuLink: Locator;
   readonly sortingContainer: Locator;
-  readonly logoutLink: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -27,13 +25,6 @@ export class HeaderContainerWrapper {
     this.sortingContainer = page.locator(
       '[data-test="product-sort-container"]'
     );
-    this.openMenuLink = page.getByRole("button", { name: "Open Menu" });
     this.headerLabel = page.locator(".header_label");
-    this.logoutLink = page.locator('[data-test="logout-sidebar-link"]');
-  }
-
-  async logout(): Promise<void> {
-    await this.openMenuLink.click();
-    await this.logoutLink.click();
   }
 }
