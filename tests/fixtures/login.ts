@@ -22,9 +22,5 @@ export const test = base.extend<LoginFixtures>({
 
     // Provide the login instance to the test
     await use(login);
-
-    // Logout after the test
-    const headerContainer = new HeaderContainerWrapper(page);
-    await headerContainer.logout();
   },
 });

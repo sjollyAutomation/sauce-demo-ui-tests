@@ -7,6 +7,7 @@ import testTextsData from "../test-data/texts.json";
 import { HeaderContainerWrapper } from "../pages/header";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { ViewCartPage } from "../pages/viewCart";
+import { MenuElements } from "../pages/menu";
 
 const checkoutUrl = testUrlsData.checkoutUrl;
 const inventoryUrl = testUrlsData.inventoryUrl;
@@ -29,6 +30,24 @@ test("Header elements are displayed properly in view cart page", async ({
     headerContainerWrapper.headerTitle,
     "header title should be correct"
   ).toHaveText(testTextsData.viewCartHeader);
+});
+
+test("Menu is displayed properly in view cart page", async ({
+  page,
+  login,
+}) => {
+  const inventory = new InventoryPage(page);
+
+  // Navigate to view cart page while item is added to the cart
+  await inventory.navigateToViewCartPage();
+
+  // Verify menu is displayed properly
+  const menuElements = new MenuElements(page);
+
+  expect(
+    menuElements.openMenuLink,
+    "open menu link should be visible"
+  ).toBeVisible();
 });
 
 test("View cart details page shows the added item information properly", async ({
