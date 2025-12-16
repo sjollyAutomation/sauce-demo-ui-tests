@@ -1,5 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import { getTextContent, getAmountFromString } from "../helpers/stringhelper";
+import { CompletePage } from "./complete";
 
 export class ConfirmationPage {
   readonly page: Page;
@@ -41,5 +42,14 @@ export class ConfirmationPage {
     );
     const tax = await this.getTaxValue();
     return price + tax;
+  }
+
+  async clickFinishButton(): Promise<CompletePage> {
+    await this.finishButton.click();
+    return new CompletePage(this.page);
+  }
+
+  async clickCancelButton(): Promise<void> {
+    await this.cancelButton.click();
   }
 }

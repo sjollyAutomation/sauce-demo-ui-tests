@@ -34,4 +34,8 @@ export class LoginPage {
     await this.passwordTextField.fill(password);
     await this.loginButton.click();
   }
+
+  async clickErrorCloseButton(): Promise<void> {
+    await this.errorCloseButton.click();
+  }
 }

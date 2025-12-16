@@ -6,7 +6,6 @@ import testUrlsData from "../test-data/urls.json";
 import testTextsData from "../test-data/texts.json";
 import { HeaderContainerWrapper } from "../pages/header";
 import { expectHeaderVisibleWithText } from "./assertions/header";
-import { ViewCartPage } from "../pages/viewCart";
 import { MenuElements } from "../pages/menu";
 
 const checkoutUrl = testUrlsData.checkoutUrl;
@@ -106,10 +105,9 @@ test("Buttons are displayed properly in view cart page", async ({
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
   const cart = new CartPage(page);
-  const viewCart = new ViewCartPage(page);
 
   // Verify associated buttons are displayed correctly
   await expect(
@@ -145,12 +143,10 @@ test("Clicking continue shopping button takes user to inventory page", async ({
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
-
-  const viewCart = new ViewCartPage(page);
+  const viewCart = await inventory.navigateToViewCartPage();
 
   // Click continue shopping button
-  await viewCart.continueShoppingButton.click();
+  await viewCart.clickContinueShoppingButton();
 
   expect(page.url(), "user should be taken to inventory page").toContain(
     inventoryUrl
@@ -164,12 +160,10 @@ test("Clicking checkout button takes user to checkout page", async ({
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
-
-  // Click checkout button
-  await viewCart.checkoutButton.click();
+  // Navigate to checkout page
+  await viewCart.navigateToCheckoutPage();
 
   expect(page.url(), "user should be taken to checkout page").toContain(
     checkoutUrl

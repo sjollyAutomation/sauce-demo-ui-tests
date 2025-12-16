@@ -19,4 +19,8 @@ export class CompletePage {
     this.completeText = page.locator('[data-test="complete-text"]');
     this.backHomeButton = page.locator('[data-test="back-to-products"]');
   }
+
+  async navigateBackToHomePage(): Promise<void> {
+    await this.backHomeButton.click();
+  }
 }

@@ -28,8 +28,8 @@ test("Menu elements are displayed properly", async ({ page, login }) => {
     "menu should be collapased"
   ).toHaveAttribute("aria-hidden", "true");
 
-  // Click open menu link
-  await menuElements.openMenuLink.click();
+  // Expand menu
+  await menuElements.expandMenu();
 
   expect(menuElements.expandedMenu, "menu should be expanded").toHaveAttribute(
     "aria-hidden",
@@ -104,8 +104,8 @@ test("Clicking all items menu item takes the user to inventory page", async ({
 }) => {
   const inventory = new InventoryPage(page);
 
-  // Click on the name link
-  await inventory.firstInventoryItemName.click();
+  // Navigate to product details page
+  await inventory.navigateToProductDetailsPage();
 
   const menuElements = new MenuElements(page);
 
@@ -124,18 +124,16 @@ test("Clicking reset app state menu item resets the cart to the default", async 
   const inventory = new InventoryPage(page);
   const headerContainerWrapper = new HeaderContainerWrapper(page);
 
-  // Go to first item details page
-  await inventory.firstInventoryItemName.click();
+  // Navigate to product details page
+  await inventory.navigateToProductDetailsPage();
 
-  const shoppingCartBadge = headerContainerWrapper.shoppingCartBadge;
-
-  // Click on the name link
-  await inventory.firstInventoryItemName.click();
+  // Navigate to product details page
+  await inventory.navigateToProductDetailsPage();
 
   const inventoryDetails = new DetailsPage(page);
 
   // Add item to the cart
-  await inventoryDetails.itemAddToCartButton.click();
+  await inventoryDetails.addItemToCart();
 
   const menuElements = new MenuElements(page);
 

@@ -1,5 +1,6 @@
 import { Page, Locator } from "@playwright/test";
 import { getRandomString } from "../helpers/stringhelper";
+import { ConfirmationPage } from "./confirmation";
 
 export class CheckoutPage {
   readonly page: Page;
@@ -21,12 +22,13 @@ export class CheckoutPage {
     this.continueButton = page.locator('[data-test="continue"]');
   }
 
-  async continueCheckout(): Promise<void> {
+  async navigateToConfirmationPage(): Promise<ConfirmationPage> {
     const randonString = getRandomString(10);
     await this.firstNameInputField.fill(randonString);
     await this.lastNameInputField.fill(randonString);
     await this.postalCodeInputField.fill(randonString);
     await this.continueButton.click();
+    return new ConfirmationPage(this.page);
   }
 
   async continueCheckoutWithoutFirstName(): Promise<void> {
@@ -44,5 +46,9 @@ export class CheckoutPage {
     await this.firstNameInputField.fill(randonString);
     await this.lastNameInputField.fill(randonString);
     await this.continueButton.click();
+  }
+
+  async clickCancelButton(): Promise<void> {
+    await this.cancelButton.click();
   }
 }

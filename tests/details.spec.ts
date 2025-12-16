@@ -5,6 +5,9 @@ import { HeaderContainerWrapper } from "../pages/header";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { DetailsPage } from "../pages/details";
 import { MenuElements } from "../pages/menu";
+import testUrls from "../test-data/urls.json";
+
+const inventoryUrl = testUrls.inventoryUrl;
 
 test("Product details are displayed properly", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
@@ -15,7 +18,7 @@ test("Product details are displayed properly", async ({ page, login }) => {
   const firstPrice = await inventory.getFirstItemPriceText();
 
   // Click on the name link
-  await inventory.firstInventoryItemName.click();
+  await inventory.navigateToProductDetailsPage();
 
   const inventoryDetails = new DetailsPage(page);
 
@@ -50,13 +53,16 @@ test("Product details are displayed properly", async ({ page, login }) => {
     "add to cart button is displayed properly"
   ).toBeVisible();
 
-  // Click on back to products link
-  await inventoryDetails.backToProductsLink.click();
+  // Navigate back to product details page
+  await inventoryDetails.goBackToProductPage();
 
   await expect(
     inventoryDetails.backToProductsLink,
     "back to products link is hidden on the item list page"
   ).not.toBeVisible();
+  expect(page.url(), "user should be taken to inventory page").toContain(
+    inventoryUrl
+  );
 });
 
 test("Menu is displayed properly in product details page", async ({
@@ -66,7 +72,7 @@ test("Menu is displayed properly in product details page", async ({
   const inventory = new InventoryPage(page);
 
   // Click on the name link
-  await inventory.firstInventoryItemName.click();
+  await inventory.navigateToProductDetailsPage();
 
   // Verify menu is displayed properly
   const menuElements = new MenuElements(page);

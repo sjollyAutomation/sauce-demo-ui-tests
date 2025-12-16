@@ -35,5 +35,21 @@ export default defineConfig({
       use: { ...devices["Desktop Safari"] },
       testMatch: /.*\.spec\.ts/,
     },
+    // Mobile emulators
+    {
+      name: "iPhone14",
+      use: { ...devices["iPhone 14"] },
+      testMatch: /.*\.spec\.ts/,
+    },
+    {
+      name: "iPhone16",
+      use: { ...devices["iPhone 16"] },
+      testMatch: /.*\.spec\.ts/,
+    },
+    {
+      name: "Pixel7",
+      use: { ...devices["Pixel 7"] },
+      testMatch: /.*\.spec\.ts/,
+    },
   ],
 });
