@@ -1,4 +1,5 @@
 import { Page, Locator } from "@playwright/test";
+import { CheckoutPage } from "./checkout";
 
 export class ViewCartPage {
   readonly page: Page;
@@ -12,5 +13,14 @@ export class ViewCartPage {
       "[data-test='continue-shopping']"
     );
     this.checkoutButton = page.locator("[data-test='checkout']");
+  }
+
+  async navigateToCheckoutPage(): Promise<CheckoutPage> {
+    await this.checkoutButton.click();
+    return new CheckoutPage(this.page);
+  }
+
+  async clickContinueShoppingButton(): Promise<void> {
+    await this.continueShoppingButton.click();
   }
 }

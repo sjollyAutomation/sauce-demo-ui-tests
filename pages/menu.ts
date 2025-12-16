@@ -22,6 +22,10 @@ export class MenuElements {
     this.resetAppStateLink = page.locator('[data-test="reset-sidebar-link"]');
   }
 
+  async expandMenu(): Promise<void> {
+    await this.openMenuLink.click();
+  }
+
   async clickCloseMenuButton(): Promise<void> {
     await this.openMenuLink.click();
     await this.closeButton.click();

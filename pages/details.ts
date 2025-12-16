@@ -38,4 +38,20 @@ export class DetailsPage {
   async getItemPriceText(): Promise<string> {
     return await getTextContent(this.itemPrice);
   }
+
+  async addItemToCart(): Promise<void> {
+    await this.itemAddToCartButton.click();
+
+    await this.itemRemoveButton.waitFor({ state: "visible" });
+  }
+
+  async removeItemFromCart(): Promise<void> {
+    await this.itemRemoveButton.click();
+
+    await this.itemAddToCartButton.waitFor({ state: "visible" });
+  }
+
+  async goBackToProductPage(): Promise<void> {
+    await this.backToProductsLink.click();
+  }
 }

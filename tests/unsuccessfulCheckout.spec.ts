@@ -1,8 +1,6 @@
 import { test } from "./fixtures/login";
 import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
-import { ViewCartPage } from "../pages/viewCart";
-import { CheckoutPage } from "../pages/checkout";
 import testErrorData from "../test-data/errorMessages.json";
 
 const firstNameError = testErrorData.firstNameError;
@@ -16,14 +14,10 @@ test("clicking continue button without filling up the first name shows proper er
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
-
-  // Click checkout button
-  await viewCart.checkoutButton.click();
-
-  const checkout = new CheckoutPage(page);
+  // Navigate to checkout page
+  const checkout = await viewCart.navigateToCheckoutPage();
 
   await checkout.continueCheckoutWithoutFirstName();
 
@@ -44,14 +38,10 @@ test("clicking continue button without filling up the last name shows proper err
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
-
-  // Click checkout button
-  await viewCart.checkoutButton.click();
-
-  const checkout = new CheckoutPage(page);
+  // Navigate to checkout page
+  const checkout = await viewCart.navigateToCheckoutPage();
 
   await checkout.continueCheckoutWithoutLastName();
 
@@ -72,14 +62,10 @@ test("clicking continue button without filling up the postal code shows proper e
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
-
-  // Click checkout button
-  await viewCart.checkoutButton.click();
-
-  const checkout = new CheckoutPage(page);
+  // Navigate to checkout page
+  const checkout = await viewCart.navigateToCheckoutPage();
 
   await checkout.continueCheckoutWithoutPostalCode();
 

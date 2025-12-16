@@ -1,11 +1,8 @@
 import { test } from "./fixtures/login";
 import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
-import { CheckoutPage } from "../pages/checkout";
 import { expectHeaderVisibleWithText } from "./assertions/header";
 import { HeaderContainerWrapper } from "../pages/header";
-import { ConfirmationPage } from "../pages/confirmation";
-import { ViewCartPage } from "../pages/viewCart";
 import testUrlsData from "../test-data/urls.json";
 import testTextsData from "../test-data/texts.json";
 import { CompletePage } from "../pages/complete";
@@ -20,20 +17,15 @@ test("Header elements are displayed properly in complete page", async ({
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
+  // Navigate to checkout page
+  const checkout = await viewCart.navigateToCheckoutPage();
 
-  // Click checkout button
-  await viewCart.checkoutButton.click();
+  // Navigate to confirmation page
+  const confirmation = await checkout.navigateToConfirmationPage();
 
-  const checkout = new CheckoutPage(page);
-
-  await checkout.continueCheckout();
-
-  const confirmation = new ConfirmationPage(page);
-
-  await confirmation.finishButton.click();
+  await confirmation.clickFinishButton();
 
   // Verify header elements are displayed properly
   const headerContainerWrapper = new HeaderContainerWrapper(page);
@@ -49,20 +41,15 @@ test("Menu is displayed properly in complete page", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
+  // Navigate to checkout page
+  const checkout = await viewCart.navigateToCheckoutPage();
 
-  // Click checkout button
-  await viewCart.checkoutButton.click();
+  // Navigate to confirmation page
+  const confirmation = await checkout.navigateToConfirmationPage();
 
-  const checkout = new CheckoutPage(page);
-
-  await checkout.continueCheckout();
-
-  const confirmation = new ConfirmationPage(page);
-
-  await confirmation.finishButton.click();
+  await confirmation.clickFinishButton();
 
   // Verify menu is displayed properly
   const menuElements = new MenuElements(page);
@@ -80,20 +67,15 @@ test("Complete page shows all the success info properly", async ({
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
+  // Navigate to checkout page
+  const checkout = await viewCart.navigateToCheckoutPage();
 
-  // Click checkout button
-  await viewCart.checkoutButton.click();
+  // Navigate to confirmation page
+  const confirmation = await checkout.navigateToConfirmationPage();
 
-  const checkout = new CheckoutPage(page);
-
-  await checkout.continueCheckout();
-
-  const confirmation = new ConfirmationPage(page);
-
-  await confirmation.finishButton.click();
+  await confirmation.clickFinishButton();
 
   const complete = new CompletePage(page);
 
@@ -121,20 +103,15 @@ test("Complete page shows the buttons properly", async ({ page, login }) => {
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
+  // Navigate to checkout page
+  const checkout = await viewCart.navigateToCheckoutPage();
 
-  // Click checkout button
-  await viewCart.checkoutButton.click();
+  // Navigate to confirmation page
+  const confirmation = await checkout.navigateToConfirmationPage();
 
-  const checkout = new CheckoutPage(page);
-
-  await checkout.continueCheckout();
-
-  const confirmation = new ConfirmationPage(page);
-
-  await confirmation.finishButton.click();
+  await confirmation.clickFinishButton();
 
   const complete = new CompletePage(page);
 
@@ -152,24 +129,20 @@ test("Clicking back home button takes the user to inventory page", async ({
   const inventory = new InventoryPage(page);
 
   // Navigate to view cart page while item is added to the cart
-  await inventory.navigateToViewCartPage();
+  const viewCart = await inventory.navigateToViewCartPage();
 
-  const viewCart = new ViewCartPage(page);
+  // Navigate to checkout page
+  const checkout = await viewCart.navigateToCheckoutPage();
 
-  // Click checkout button
-  await viewCart.checkoutButton.click();
+  // Navigate to confirmation page
+  const confirmation = await checkout.navigateToConfirmationPage();
 
-  const checkout = new CheckoutPage(page);
-
-  await checkout.continueCheckout();
-
-  const confirmation = new ConfirmationPage(page);
-
-  await confirmation.finishButton.click();
+  await confirmation.clickFinishButton();
 
   const complete = new CompletePage(page);
 
-  await complete.backHomeButton.click();
+  // Navigate back to home page
+  await complete.navigateBackToHomePage();
 
   expect(page.url(), "user should be taken to inventory page").toContain(
     inventoryUrl

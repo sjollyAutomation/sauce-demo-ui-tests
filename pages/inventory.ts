@@ -2,6 +2,7 @@ import { Page, Locator } from "@playwright/test";
 import { HeaderContainerWrapper } from "./header";
 import { getConvertedText, getTextContent } from "../helpers/stringhelper";
 import { sortArray, isArraySorted } from "../helpers/sortHelper";
+import { ViewCartPage } from "./viewCart";
 
 export class InventoryPage {
   readonly page: Page;
@@ -122,11 +123,37 @@ export class InventoryPage {
     return isArraySorted(originalItemPriceList, sortedItemPriceList);
   }
 
-  async navigateToViewCartPage(): Promise<void> {
+  async navigateToProductDetailsPage(): Promise<void> {
+    await this.firstInventoryItemName.click();
+  }
+
+  async navigateToViewCartPage(): Promise<ViewCartPage> {
     const headerContainerWrapper = new HeaderContainerWrapper(this.page);
 
     const addToCartButton = await this.firstInventoryItemAddToCartButton();
     await addToCartButton.click();
     await headerContainerWrapper.shoppingCartLink.click();
+
+    return new ViewCartPage(this.page);
+  }
+
+  async addItemToCart(): Promise<void> {
+    const addToCartButton = await this.firstInventoryItemAddToCartButton();
+
+    await addToCartButton.click();
+
+    const removeItemButton = await this.firstInventoryItemRemoveButton();
+
+    await removeItemButton.waitFor({ state: "visible" });
+  }
+
+  async removeItemFromCart(): Promise<void> {
+    const removeItemButton = await this.firstInventoryItemRemoveButton();
+
+    await removeItemButton.click();
+
+    const addToCartButton = await this.firstInventoryItemAddToCartButton();
+
+    await addToCartButton.waitFor({ state: "visible" });
   }
 }

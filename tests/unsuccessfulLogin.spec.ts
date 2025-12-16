@@ -67,7 +67,7 @@ test.describe("Unsuccessful login verification", () => {
     ).toBeVisible();
 
     // Click the error close button
-    await login.errorCloseButton.click();
+    await login.clickErrorCloseButton();
 
     // Verify error container is hidden properly
     await expect(
