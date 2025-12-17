@@ -18,6 +18,15 @@ SAUCE-DEMO-UI-TESTS/
 ├── tests/                  # Test scripts
 ```
 
+## ✅ Coverage
+
+```bash
+- E2E UI flows
+- Cross-browser testing
+- Component-like UI validation
+- Accessibility checks
+```
+
 ---
 
 ## 📦 Requirements
@@ -59,7 +68,7 @@ npx playwright test
 npx playwright test tests/login.spec.ts
 ```
 
-**Run Tests in a Specific Browser**
+**Run Tests in a Specific Browser or Mobile Emulators**
 
 ```bash
 npx playwright test --project=chromium
