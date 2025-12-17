@@ -26,7 +26,26 @@ SAUCE-DEMO-UI-TESTS/
 - Component-like UI validation
 - Accessibility checks
 ```
+## 🧠 Testing Approach & Scope
 
+This project focuses on **high-value end-to-end user flows** rather than exhaustive UI coverage.
+
+Included:
+```bash
+- Core login and post-login workflows
+- Page-level accessibility checks using Axe
+- Cross-browser and mobile emulation coverage
+- Maintainable Page Object Model design
+```
+
+Intentionally excluded:
+```bash
+- Visual regression testing (UI is not stable enough for reliable baselines)
+- Performance testing (better suited for API or dedicated performance tools)
+- Negative-path overload (Sauce Demo is a demo app with limited error handling)
+```
+
+The goal is to demonstrate **real-world Playwright usage and QA decision-making**, not maximum test count.
 ---
 
 ## 📦 Requirements
