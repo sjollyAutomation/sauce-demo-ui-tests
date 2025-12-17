@@ -3,6 +3,7 @@ import { HeaderContainerWrapper } from "./header";
 import { getConvertedText, getTextContent } from "../helpers/stringhelper";
 import { sortArray, isArraySorted } from "../helpers/sortHelper";
 import { ViewCartPage } from "./viewCart";
+import { DetailsPage } from "./details";
 
 export class InventoryPage {
   readonly page: Page;
@@ -123,15 +124,16 @@ export class InventoryPage {
     return isArraySorted(originalItemPriceList, sortedItemPriceList);
   }
 
-  async navigateToProductDetailsPage(): Promise<void> {
+  async navigateToProductDetailsPage(): Promise<DetailsPage> {
     await this.firstInventoryItemName.click();
+    return new DetailsPage(this.page);
   }
 
   async navigateToViewCartPage(): Promise<ViewCartPage> {
     const headerContainerWrapper = new HeaderContainerWrapper(this.page);
 
-    const addToCartButton = await this.firstInventoryItemAddToCartButton();
-    await addToCartButton.click();
+    await this.addItemToCart();
+
     await headerContainerWrapper.shoppingCartLink.click();
 
     return new ViewCartPage(this.page);

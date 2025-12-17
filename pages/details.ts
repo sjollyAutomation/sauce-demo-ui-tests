@@ -1,5 +1,7 @@
 import { Page, Locator } from "@playwright/test";
 import { getTextContent } from "../helpers/stringhelper";
+import { HeaderContainerWrapper } from "./header";
+import { ViewCartPage } from "./viewCart";
 
 export class DetailsPage {
   readonly page: Page;
@@ -53,5 +55,15 @@ export class DetailsPage {
 
   async goBackToProductPage(): Promise<void> {
     await this.backToProductsLink.click();
+  }
+
+  async navigateToViewCartPage(): Promise<ViewCartPage> {
+    const headerContainerWrapper = new HeaderContainerWrapper(this.page);
+
+    await this.addItemToCart();
+
+    await headerContainerWrapper.shoppingCartLink.click();
+
+    return new ViewCartPage(this.page);
   }
 }

@@ -127,9 +127,6 @@ test("Clicking reset app state menu item resets the cart to the default", async 
   // Navigate to product details page
   await inventory.navigateToProductDetailsPage();
 
-  // Navigate to product details page
-  await inventory.navigateToProductDetailsPage();
-
   const inventoryDetails = new DetailsPage(page);
 
   // Add item to the cart

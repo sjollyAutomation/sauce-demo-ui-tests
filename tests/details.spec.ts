@@ -3,7 +3,6 @@ import { expect } from "@playwright/test";
 import { InventoryPage } from "../pages/inventory";
 import { HeaderContainerWrapper } from "../pages/header";
 import { expectHeaderVisibleWithText } from "./assertions/header";
-import { DetailsPage } from "../pages/details";
 import { MenuElements } from "../pages/menu";
 import testUrls from "../test-data/urls.json";
 
@@ -17,10 +16,8 @@ test("Product details are displayed properly", async ({ page, login }) => {
   const firstDescription = await inventory.getFirstItemDescriptionText();
   const firstPrice = await inventory.getFirstItemPriceText();
 
-  // Click on the name link
-  await inventory.navigateToProductDetailsPage();
-
-  const inventoryDetails = new DetailsPage(page);
+  // Navigate to product details page
+  const inventoryDetails = await inventory.navigateToProductDetailsPage();
 
   // Verify header elements are displayed properly
   const headerContainerWrapper = new HeaderContainerWrapper(page);
@@ -71,7 +68,7 @@ test("Menu is displayed properly in product details page", async ({
 }) => {
   const inventory = new InventoryPage(page);
 
-  // Click on the name link
+  // Navigate to product details page
   await inventory.navigateToProductDetailsPage();
 
   // Verify menu is displayed properly

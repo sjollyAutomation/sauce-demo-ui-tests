@@ -1,0 +1,8 @@
+{
+  "login": "[data-test='login-container']",
+  "inventory": "[data-test='inventory-container']",
+  "cart": "[data-test='cart-contents-container']",
+  "checkout": "[data-test='checkout-info-container']",
+  "confirmation": "[data-test='checkout-summary-container']",
+  "complete": "[data-test='checkout-complete-container']"
+}
