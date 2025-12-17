@@ -18,14 +18,6 @@ SAUCE-DEMO-UI-TESTS/
 ├── tests/                  # Test scripts
 ```
 
-## ✅ Coverage
-
-```bash
-- E2E UI flows
-- Cross-browser testing
-- Component-like UI validation
-- Accessibility checks
-```
 ## 🧠 Testing Approach & Scope
 
 This project focuses on **high-value end-to-end user flows** rather than exhaustive UI coverage.
@@ -46,6 +38,22 @@ Intentionally excluded:
 ```
 
 The goal is to demonstrate **real-world Playwright usage and QA decision-making**, not maximum test count.
+
+## ♿ Accessibility Testing
+
+Accessibility checks are implemented using **@axe-core/playwright**.
+
+- Scans are scoped to page-specific containers to reduce noise
+- Accessibility tests are written separately from functional assertions
+- Focus is on critical user-facing pages (login, inventory, checkout flow)
+
+This approach balances meaningful coverage with test stability.
+
+## 🧩 Fixtures & Helpers
+
+- Login is handled via a reusable Playwright fixture
+- Accessibility checks are implemented as helper functions
+- This keeps functional tests readable while avoiding fixture overuse
 ---
 
 ## 📦 Requirements
