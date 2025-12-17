@@ -1,6 +1,5 @@
 import { test as base } from "@playwright/test";
 import { LoginPage } from "../../pages/login";
-import { HeaderContainerWrapper } from "../../pages/header";
 import testCredentialsData from "../../test-data/credentials.json";
 
 type LoginFixtures = {
